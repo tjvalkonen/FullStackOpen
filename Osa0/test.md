@@ -25,7 +25,7 @@ sequenceDiagram
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{ "x": "y", "z": "q" }, ... ]
+    server-->>browser: [{"content":"NewNoteDiagram","date":"2023-09-21T06:31:51.097Z"},...]
     deactivate server
 
     browser->>server: GET https://studies.cs.helsinki.fi/favicon.ico
