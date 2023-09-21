@@ -8,6 +8,8 @@ sequenceDiagram
     server-->>browser: HTML document
     deactivate server
 
+Note left of server: Server responds with HTTP-status 302. (Redirect)
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
