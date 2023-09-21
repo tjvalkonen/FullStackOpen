@@ -22,4 +22,14 @@ sequenceDiagram
     activate server
     server-->>browser: the css file
     deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "x": "y", "z": "q" }, ... ]
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/favicon.ico
+    activate server
+    server-->>browser: HTML document
+    deactivate server
 ```
