@@ -10,8 +10,8 @@ sequenceDiagram
 
 Note left of server: Server responds with HTTP-status 302. (redirect).
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
 Note right of browser: The browser responds to redirct and makes a HTTP GET -request.
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
