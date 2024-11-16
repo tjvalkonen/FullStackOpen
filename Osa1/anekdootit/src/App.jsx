@@ -1,5 +1,11 @@
 import { useState } from 'react'
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -11,12 +17,51 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.',
     'The only way to go fast, is to go well.'
   ]
+const lenght = anecdotes.length
+  const [votes, setAll] = useState(Array(lenght).fill(0))
+
+  const nextAnecdote = () => {
+    const randomA = Math.floor(Math.random() * 8)
+    setSelected(randomA)
+    console.log('anecdote after', randomA)
+  }
    
+  const voteAnecdote = () => {
+    const copy = [...votes]
+    // kasvatetaan taulukon paikan selected arvoa yhdellä
+    copy[selected] += 1
+    setAll(copy)
+    console.log('anecdote votes after', copy[selected])
+  }
+
   const [selected, setSelected] = useState(0)
+
+  const [mostVotes, setMostVotes] = useState(0)
+
+  for (let i = 0; i < votes.length; i++){
+    if (votes[mostVotes] < votes[i]){
+      setMostVotes(i)
+    }
+  }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
+      <div>
       {anecdotes[selected]}
+      </div>
+      <div>
+      has {votes[selected]} votes
+      </div>
+      <Button handleClick={voteAnecdote} text='vote' />
+      <Button handleClick={nextAnecdote} text='next anecdote' />
+      <h1>Anecdote with most votes</h1>
+      <div>
+      {anecdotes[mostVotes]}
+      </div>
+      <div>
+      has {votes[mostVotes]} votes
+      </div>
     </div>
   )
 }
