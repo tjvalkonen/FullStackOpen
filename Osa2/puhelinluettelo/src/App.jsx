@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
 /*
@@ -21,12 +22,42 @@ const App = () => {
   useEffect(() => {
     console.log('effect')
     axios
+      personService
+        .getAll()
+        .then(response => {
+          setPersons(response.data)
+        })
+    /*
       .get('http://localhost:3001/persons')
       .then(response => {
         console.log('promise fulfilled')
         setPersons(response.data)
       })
+      */
   }, [])
+
+  const updateNumber = (props) => {
+    console.log('update number ', props)
+    const person = persons.find(p => p.id === props.id)
+    const changedPerson = { ...person, number: props.number }
+  
+    personService
+      .update(props.id, changedPerson)
+      .then(response => {
+        console.log('Update response ', response)
+      })
+      .catch(error => {
+        alert(
+          `the note '${person.name}' was already deleted from server`
+        )
+        //setPersons(persons.filter(p => p.id !== props.id))
+    })
+    personService
+    .getAll()
+    .then(response => {
+      setPersons(response.data)
+    })
+  }
 
   const addName = (event) => {
     event.preventDefault()
@@ -36,18 +67,56 @@ const App = () => {
       number: newNumber,
     }
     const nameExist = persons.some(p => p.name === newName)
+    const personX = persons.find((p) => p.name === newName)
 
     if(nameExist){
-      alert(`${newName} is already added to phonebook`)
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        const updateNunberObject = {
+          id: personX.id,
+          name: personX.name,
+          number: newNumber,
+        }
+        
+          console.log('found person ', personX)
+          updateNumber(updateNunberObject)
+      }
+      // alert(`${newName} is already added to phonebook, replace the old number with a new one?`)
     } else {
       console.log('Name exists ', nameExist)
     //  console.log('persons', persons[0].name)
       console.log('newName', newName)
       console.log('nameObject', nameObject)
-      setPersons(persons.concat(nameObject))
-  
-      setNewName('')
-      setNewNumber('')
+
+      personService
+        .create(nameObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+
+      })
+    }
+  }
+
+  const removePersonX = id => {
+    const person = persons.find(p => p.id === id)
+
+    if(window.confirm(`Delete '${person.name}'?`)){
+      personService
+        .remove(id)
+        .then(response => {
+        console.log('Remove response ', response)
+      })
+      .catch(error => {
+        alert(
+          `the note '${person.name}' was already deleted from server`
+        )       
+      })
+      personService
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
     }
 
   }
@@ -62,12 +131,10 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  
   const handleFilterChange = (event) => {
     console.log(event.target.value)
     setFilterName(event.target.value)
   }
-
   
   const filterItems = (arr, query) => {
       console.log('filter ', arr)
@@ -75,16 +142,17 @@ const App = () => {
       element.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
   }
 
-
-
-
   return (
     <div><h2>Phonebook</h2>
       <Filter  filterName={filterName} handleFilterChange={handleFilterChange}/>
       <h2>Add a new</h2>
       <PersonForm addName={addName} newName={newName} handlePersonChange={handlePersonChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons filterItems={filterItems} persons={persons} filterName={filterName}/>     
+      <Persons filterItems={filterItems} 
+        persons={persons} 
+        filterName={filterName}
+        removePersonX={removePersonX}
+      />     
     </div>
   )
 
