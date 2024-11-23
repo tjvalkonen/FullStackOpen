@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
 /*
@@ -19,6 +20,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
 
+  const [errorMessage, setErrorMessage] = useState(null)
+
   useEffect(() => {
     console.log('effect')
     axios
@@ -27,13 +30,7 @@ const App = () => {
         .then(response => {
           setPersons(response.data)
         })
-    /*
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-      */
+
   }, [])
 
   const updateNumber = (props) => {
@@ -47,9 +44,17 @@ const App = () => {
         console.log('Update response ', response)
       })
       .catch(error => {
+        setErrorMessage(
+          `'${person.name}' was already deleted from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+        }, 5000)
+        /*
         alert(
-          `the note '${person.name}' was already deleted from server`
+          `'${person.name}' was already deleted from server`
         )
+        */
         //setPersons(persons.filter(p => p.id !== props.id))
     })
     personService
@@ -57,6 +62,12 @@ const App = () => {
     .then(response => {
       setPersons(response.data)
     })
+    setErrorMessage(
+      `'${person.name}' number is updated`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+    }, 5000)
   }
 
   const addName = (event) => {
@@ -79,6 +90,7 @@ const App = () => {
         
           console.log('found person ', personX)
           updateNumber(updateNunberObject)
+        
       }
       // alert(`${newName} is already added to phonebook, replace the old number with a new one?`)
     } else {
@@ -95,6 +107,12 @@ const App = () => {
           setNewNumber('')
 
       })
+      setErrorMessage(
+        `'${nameObject.name}' number is added`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -108,16 +126,32 @@ const App = () => {
         console.log('Remove response ', response)
       })
       .catch(error => {
+
+        setErrorMessage(
+          `'${person.name}' was already deleted from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+        }, 5000)
+        /*
         alert(
-          `the note '${person.name}' was already deleted from server`
-        )       
+          `'${person.name}' was already deleted from server`
+        )
+        */     
       })
       personService
       .getAll()
       .then(response => {
         setPersons(response.data)
       })
+      setErrorMessage(
+        `'${person.name}' is deleted`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+      }, 5000)
     }
+
 
   }
 
@@ -144,6 +178,7 @@ const App = () => {
 
   return (
     <div><h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter  filterName={filterName} handleFilterChange={handleFilterChange}/>
       <h2>Add a new</h2>
       <PersonForm addName={addName} newName={newName} handlePersonChange={handlePersonChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
