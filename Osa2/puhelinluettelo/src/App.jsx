@@ -45,7 +45,7 @@ const App = () => {
       })
       .catch(error => {
         setErrorMessage(
-          `'${person.name}' was already deleted from server`
+          `${error.response.data.error}`
           )
           setTimeout(() => {
             setErrorMessage(null)
@@ -86,11 +86,9 @@ const App = () => {
           id: personX.id,
           name: personX.name,
           number: newNumber,
-        }
-        
+        }    
           console.log('found person ', personX)
-          updateNumber(updateNunberObject)
-        
+          updateNumber(updateNunberObject)      
       }
       // alert(`${newName} is already added to phonebook, replace the old number with a new one?`)
     } else {
@@ -105,18 +103,38 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setErrorMessage(
+            `'${nameObject.name}' added to the phonebook`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+          }, 5000)
 
+      }) 
+      .catch(error => {
+        console.log('add name error ',error)
+        setErrorMessage(
+          `'${error.response.data.error}'`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+        }, 5000)
       })
-      setErrorMessage(
-        `'${nameObject.name}' number is added`
-        )
-        setTimeout(() => {
-          setErrorMessage(null)
-      }, 5000)
+      
+      // testing error messages...
+      /*
+        setErrorMessage(
+          `'${nameObject.name}' added to the phonebook`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+        }, 5000)
+
+        */
     }
   }
 
-  const removePersonX = id => {
+  const removePersonX = (id) => {
     const person = persons.find(p => p.id === id)
 
     if(window.confirm(`Delete '${person.name}'?`)){
@@ -126,19 +144,14 @@ const App = () => {
         console.log('Remove response ', response)
       })
       .catch(error => {
-
         setErrorMessage(
           `'${person.name}' was already deleted from server`
           )
           setTimeout(() => {
             setErrorMessage(null)
-        }, 5000)
-        /*
-        alert(
-          `'${person.name}' was already deleted from server`
-        )
-        */     
+        }, 5000) 
       })
+      
       personService
       .getAll()
       .then(response => {
@@ -150,8 +163,8 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
       }, 5000)
+      
     }
-
 
   }
 
