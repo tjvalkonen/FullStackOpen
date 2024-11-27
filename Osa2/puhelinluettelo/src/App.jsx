@@ -20,6 +20,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
 
+  // Refactor to message?
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
@@ -82,13 +83,13 @@ const App = () => {
 
     if(nameExist){
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
-        const updateNunberObject = {
+        const updateNumberObject = {
           id: personX.id,
           name: personX.name,
           number: newNumber,
         }    
           console.log('found person ', personX)
-          updateNumber(updateNunberObject)      
+          updateNumber(updateNumberObject)      
       }
       // alert(`${newName} is already added to phonebook, replace the old number with a new one?`)
     } else {
@@ -103,18 +104,20 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          
           setErrorMessage(
             `'${nameObject.name}' added to the phonebook`
             )
             setTimeout(() => {
               setErrorMessage(null)
           }, 5000)
+          
 
-      }) 
+      })      
       .catch(error => {
         console.log('add name error ',error)
         setErrorMessage(
-          `'${error.response.data.error}'`
+          `${error.response.data.error}`
           )
           setTimeout(() => {
             setErrorMessage(null)
