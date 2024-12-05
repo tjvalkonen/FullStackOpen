@@ -1,5 +1,5 @@
-const { test, describe } = require('node:test')
-const assert = require('node:assert')
+// const { test, describe } = require('node:test')
+// const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
 test('dummy returns one', () => {
@@ -7,7 +7,8 @@ test('dummy returns one', () => {
 
   const result = listHelper.dummy(blogs)
   // console.log("List helper -->", listHelper.dummy(blogs))
-  assert.strictEqual(result, 1)
+  // assert.strictEqual(result, 1)
+  expect(result).toBe(1)
 })
 
 
@@ -150,20 +151,24 @@ describe('favourite blog', () => {
   test('when list is empty', () => {
     const result = listHelper.favouriteBlog(emptyList)
     // console.log("favourite ", emptyList)
-    assert.deepStrictEqual(result, "")
+    //assert.deepStrictEqual(result, "")
+    expect(result).toBe("")
   })
   test('when the list has one blog', () => {
     const result = listHelper.favouriteBlog(listWithOneBlog)
     // console.log("favourite ", listWithOneBlog)
-    assert.deepStrictEqual(result, oneBlog)
+    //assert.deepStrictEqual(result, oneBlog)
+    expect(result).toStrictEqual(oneBlog)
   })
   test('favourite from list of six blogs', () => {
     const result = listHelper.favouriteBlog(listWithSixBlogs)
-    assert.deepStrictEqual(result, sixBlogsFavourite)
+    // assert.deepStrictEqual(result, sixBlogsFavourite)
+    expect(result).toStrictEqual(sixBlogsFavourite)
   })
   test('favourite from list of equal likes', () => {
     const result = listHelper.favouriteBlog(listWithSixBlogsEqualLikes)
-    assert.deepStrictEqual(result, equalLikesBlog)
+    // assert.deepStrictEqual(result, equalLikesBlog)
+    expect(result).toStrictEqual(equalLikesBlog)
   })
 })
 
@@ -233,15 +238,18 @@ describe('total likes', () => {
   ]
   test('when list is empty', () => {
     const result = listHelper.totalLikes(emptyList)
-    assert.strictEqual(result, 0)
+    // assert.strictEqual(result, 0)
+    expect(result).toBe(0)
   })
   test('when list has only one blog equals the likes of that', () => {
     const result = listHelper.totalLikes(listWithOneBlog)
-    assert.strictEqual(result, 5)
+    //assert.strictEqual(result, 5)
+    expect(result).toBe(5)
   })
-  test('when list has six blogs equals teh likes of that', () => {
+  test('when list has six blogs equals the likes of that', () => {
     const result = listHelper.totalLikes(listWithSixBlogs)
-    assert.strictEqual(result, 36)
+    //assert.strictEqual(result, 36)
+    expect(result).toBe(36)
   })
 
 })
