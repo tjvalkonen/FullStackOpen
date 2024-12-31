@@ -1,7 +1,7 @@
 const dummy = (blogs) => {
-    // ...
-    return 1
-  }
+  // ...
+  return 1
+}
 
 const totalLikes = (blogs) => {
   let likes = 0
@@ -11,15 +11,16 @@ const totalLikes = (blogs) => {
   return likes
 }
 
+
 const favouriteBlog = (blogs) => {
   let blogX = {
-    title: "",
-    author: "",
+    title: '',
+    author: '',
     likes: 0
   }
 
   if(blogs.length === 0){
-    return ""
+    return ''
   } else {
     blogs.forEach(blog => {
       if(blog.likes >= blogX.likes){
@@ -28,20 +29,13 @@ const favouriteBlog = (blogs) => {
         blogX.likes = blog.likes
       }
     })
-    /*
-  
-    let blogXformatted = {
-      title: `${blogX.title}`,
-      author: `${blogX.author}`,
-      likes: blogX.likes
-    }
-*/
+
     return blogX
   }
 }
 
-  module.exports = {
-    dummy, 
-    totalLikes,
-    favouriteBlog
-  }
+module.exports = {
+  dummy,
+  totalLikes,
+  favouriteBlog
+}
