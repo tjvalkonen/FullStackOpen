@@ -12,13 +12,15 @@ const listHelper = require('../utils/list_helper')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
+// jest.setTimeout(20 * 1000)
+
 // test user creation
 describe('when there is initially one user at db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
+    const user = new User({ username: 'root', name: 'Superuser', passwordHash })
 
     await user.save()
   })
@@ -45,7 +47,8 @@ describe('when there is initially one user at db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames.includes(newUser.username))
   })
-
+  
+  
   test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await listHelper.usersInDb()
 
@@ -63,15 +66,13 @@ describe('when there is initially one user at db', () => {
 
     const usersAtEnd = await listHelper.usersInDb()
     // assert(result.body.error.includes('expected `username` to be unique'))
-    expect(result.body.error).toContain(
-      'expected `username` to be unique'
-    )
+    expect(result.body.error).toContain('expected `username` to be unique')
     // assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     expect(usersAtEnd.length).toEqual(usersAtStart.length)
   })
-
-
+  
 })
+
 
 const initialBlogs = [
   {

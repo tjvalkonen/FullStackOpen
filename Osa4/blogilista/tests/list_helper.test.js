@@ -125,10 +125,6 @@ test('dummy returns one', () => {
 
 describe('favourite blog', () => {
 
-
-
-
-
   const oneBlog =
   {
     title: 'Go To Statement Considered Harmful',
