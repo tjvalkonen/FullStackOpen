@@ -23,12 +23,14 @@ blogsRouter.get('/:id', (request, response, next) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-
+  const user = await User.findById(body.userId)
+  
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes || 0
+      likes: body.likes || 0,
+      user: user._id
     })
 
     if(blog.title === undefined || blog.title === null){
@@ -38,6 +40,9 @@ blogsRouter.post('/', async (request, response) => {
     } else {
 
     const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+
     response.status(201).json(savedBlog)
   }
 
@@ -49,6 +54,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
+// update user?
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
