@@ -47,8 +47,8 @@ describe('when there is initially one user at db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames.includes(newUser.username))
   })
-  
-  
+
+
   test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await listHelper.usersInDb()
 
@@ -70,7 +70,49 @@ describe('when there is initially one user at db', () => {
     // assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     expect(usersAtEnd.length).toEqual(usersAtStart.length)
   })
-  
+
+  test('creation fails with proper statuscode and message if username is shorter than 3', async () => {
+    const usersAtStart = await listHelper.usersInDb()
+
+    const newUser = {
+      username: 'us',
+      name: 'ShortUser',
+      password: 'salainen2',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await listHelper.usersInDb()
+    // assert(result.body.error.includes('expected `username` to be unique'))
+    expect(result.body.error).toContain('username must be at least 3 characters long')
+    // assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    expect(usersAtEnd.length).toEqual(usersAtStart.length)
+  })
+
+  test('creation fails with proper statuscode and message if password is shorter than 3', async () => {
+    const usersAtStart = await listHelper.usersInDb()
+
+    const newUser = {
+      username: 'user1',
+      name: 'ShortPassword',
+      password: 'sa',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await listHelper.usersInDb()
+    expect(result.body.error).toContain('password must be at least 3 characters long')
+    expect(usersAtEnd.length).toEqual(usersAtStart.length)
+  })
+
 })
 
 
@@ -117,7 +159,7 @@ const initialBlogs = [
   },
 ]
 
-const oneExtraBlog = 
+const oneExtraBlog =
 {
   title: 'Type wars',
   author: 'Robert C. Martin',
@@ -125,28 +167,28 @@ const oneExtraBlog =
   likes: 2,
 }
 
-const secondExtraBlog = 
+const secondExtraBlog =
 {
   title: 'Type wars Extra',
   author: 'Robert C. Martin Extra',
   url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
 }
 
-const oneBlogTitleMissing = 
+const oneBlogTitleMissing =
 {
   author: 'Robert C. Martin',
   url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
   likes: 2,
 }
 
-const oneBlogUrlMissing = 
+const oneBlogUrlMissing =
 {
   title: 'Type wars Extra',
   author: 'Robert C. Martin',
   likes: 2,
 }
 
-const oneBlogToUpdate = 
+const oneBlogToUpdate =
 {
   title: 'React patterns',
   author: 'Michael Chan',
@@ -172,9 +214,9 @@ describe('when there is initially some blogs saved', () => {
     expect(response.body).toHaveLength(initialBlogs.length)
   })
 
-  test('the indentification field is named id', async () =>{
+  test('the indentification field is named id', async () => {
     const response = await api.get(`/api/blogs/${initialBlogs[0]._id}`)
-    expect(response.body.id).toBeDefined();
+    expect(response.body.id).toBeDefined()
   })
 })
 
@@ -184,10 +226,10 @@ describe('adding one blog to database with HTTP POST', () => {
     await Blog.insertMany(initialBlogs)
 
     await api
-    .post('/api/blogs')
-    .send(oneExtraBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+      .post('/api/blogs')
+      .send(oneExtraBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('database lenght is increased by one', async () => {
@@ -210,10 +252,10 @@ describe('adding one blog without likes to database with HTTP POST', () => {
     await Blog.deleteMany({})
 
     await api
-    .post('/api/blogs')
-    .send(secondExtraBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+      .post('/api/blogs')
+      .send(secondExtraBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('added blog likes is zero', async () => {
@@ -256,16 +298,16 @@ describe('title or url fields missing gives status code 400', () => {
 
   test('title missing gives status code 400', async () => {
     await api
-    .post('/api/blogs')
-    .send(oneBlogTitleMissing)
-    .expect(400)
+      .post('/api/blogs')
+      .send(oneBlogTitleMissing)
+      .expect(400)
   })
 
   test('url missing gives status code 400', async () => {
     await api
-    .post('/api/blogs')
-    .send(oneBlogUrlMissing)
-    .expect(400)
+      .post('/api/blogs')
+      .send(oneBlogUrlMissing)
+      .expect(400)
   })
 })
 
@@ -275,15 +317,15 @@ describe('updating a specific blog is possible', () => {
     await Blog.insertMany(initialBlogs)
   })
 
-  
+
   test('specific blog is updated', async () => {
     const blogsAtStart = await listHelper.blogsInDb()
     const blogToUpdate = blogsAtStart[0]
 
     await api
-    .put(`/api/blogs/${blogToUpdate.id}`)
-    .send(oneBlogToUpdate)
-    .expect(200)
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(oneBlogToUpdate)
+      .expect(200)
     const blogsAtEnd = await listHelper.blogsInDb()
     const likes = blogsAtEnd[0].likes
     expect(likes).toBe(10)
