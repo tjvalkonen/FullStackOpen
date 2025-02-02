@@ -1,6 +1,17 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+/*
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+*/
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -23,15 +34,22 @@ blogsRouter.get('/:id', (request, response, next) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  
+  // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+
   // if no user defined, set the first one
-  const users = await User.find({})
-  const user = users[0]
+  // const users = await User.find({})
+  // user = users[0]
   
   // how to handle badly formatted id?
-  if(body.userId !== undefined){
-    user = await User.findById(body.userId)
-  }
+  // if(body.userId !== undefined){
+  //  user = await User.findById(body.userId)
+  // }
 
   const blog = new Blog({
     title: body.title,

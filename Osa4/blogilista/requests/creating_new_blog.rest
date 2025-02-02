@@ -2,9 +2,9 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Testi Blogi",
-    "author": "Testi Henkilö 300",
+    "title": "Testi Token Token",
+    "author": "Token Henkilö 300",
     "url": "http://www.testi3.com",
     "likes": 2
-    // "userId" : ""
+    //"userId" : ""
 }
