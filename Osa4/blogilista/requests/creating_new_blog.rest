@@ -1,10 +1,12 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpMSIsImlkIjoiNjdhMTQ5ZDEyYjJiOGE4MTZjZTZkMTgzIiwiaWF0IjoxNzM4NzA4OTM2fQ.GbgoCiV-YR087XXNzhj6P6XitCBrocW6qZ39xh_9noQ
 
 {
-    "title": "Testi Token Token",
-    "author": "Token Henkilö 300",
-    "url": "http://www.testi3.com",
+    "title": "5.2. 00014",
+    "author": "Testi5",
+    "url": "http://www.testi.com",
     "likes": 2
     //"userId" : ""
 }
+
