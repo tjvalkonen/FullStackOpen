@@ -48,7 +48,6 @@ describe('when there is initially one user at db', () => {
     expect(usernames.includes(newUser.username))
   })
 
-
   test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await listHelper.usersInDb()
 
@@ -87,9 +86,7 @@ describe('when there is initially one user at db', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await listHelper.usersInDb()
-    // assert(result.body.error.includes('expected `username` to be unique'))
     expect(result.body.error).toContain('username must be at least 3 characters long')
-    // assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     expect(usersAtEnd.length).toEqual(usersAtStart.length)
   })
 
@@ -112,9 +109,32 @@ describe('when there is initially one user at db', () => {
     expect(result.body.error).toContain('password must be at least 3 characters long')
     expect(usersAtEnd.length).toEqual(usersAtStart.length)
   })
-
 })
 
+// testing login
+let token = ''
+let loggedUser = User
+
+describe('login succesfull with Superuser', () => {
+  test('login succeeds with status code 200 if username and password are valid', async () => {
+    const Superuser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'sekret',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(Superuser)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      token = result.body.token.toString()
+      loggedUser = result.body.User
+      // console.log(token) 
+      // console.log(`Bearer ${token}`)
+    })
+})
 
 const initialBlogs = [
   {
@@ -123,7 +143,8 @@ const initialBlogs = [
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
     likes: 7,
-    __v: 0
+    __v: 0,
+    user: loggedUser.id
   },
   {
     _id: '5a422aa71b54a676234d17f8',
@@ -131,7 +152,8 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    __v: 0
+    __v: 0,
+    user: loggedUser.id
   },
   {
     _id: '5a422b3a1b54a676234d17f9',
@@ -139,7 +161,8 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
-    __v: 0
+    __v: 0,
+    user: loggedUser.id
   },
   {
     _id: '5a422b891b54a676234d17fa',
@@ -147,7 +170,8 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
-    __v: 0
+    __v: 0,
+    user: loggedUser.id
   },
   {
     _id: '5a422ba71b54a676234d17fb',
@@ -155,7 +179,8 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
-    __v: 0
+    __v: 0,
+    user: loggedUser.id
   },
 ]
 
@@ -164,7 +189,7 @@ const oneExtraBlog =
   title: 'Type wars',
   author: 'Robert C. Martin',
   url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-  likes: 2,
+  likes: 2
 }
 
 const secondExtraBlog =
@@ -196,6 +221,8 @@ const oneBlogToUpdate =
   likes: 10,
 }
 
+// Adding login and token for testing...
+
 describe('when there is initially some blogs saved', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
@@ -220,13 +247,15 @@ describe('when there is initially some blogs saved', () => {
   })
 })
 
-describe('adding one blog to database with HTTP POST', () => {
+// adding token to tests..
+describe('adding one blog to database with HTTP POST and token', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
 
     await api
       .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
       .send(oneExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -239,7 +268,6 @@ describe('adding one blog to database with HTTP POST', () => {
 
   test('added extra blog is in the database', async () => {
     const blogsAtEnd = await listHelper.blogsInDb()
-
     const title = blogsAtEnd.map(b => b.title)
     expect(title).toContain(
       'Type wars'
@@ -247,12 +275,32 @@ describe('adding one blog to database with HTTP POST', () => {
   })
 })
 
-describe('adding one blog without likes to database with HTTP POST', () => {
+describe('adding one blog to database without authentication token returns status code 401', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(initialBlogs)
+
+    await api
+      .post('/api/blogs')
+      .send(oneExtraBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('database lenght is not increased', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(initialBlogs.length)
+  })
+})
+
+
+describe('adding one blog without likes to database with HTTP POST and token', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
 
     await api
       .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
       .send(secondExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -273,12 +321,32 @@ describe('deletion of a blog', () => {
   })
 
   test('succeeds with status code 204 if id is valid', async () => {
+    const Superuser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'sekret',
+    }
+  
+    const result = await api
+      .post('/api/login')
+      .send(Superuser)
+  
+    token = result.body.token.toString()
+    // console.log(`Bearer ${token}`)
+
     const blogsAtStart = await listHelper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
+// .set('Authorization', 'Bearer ' + token) // Works.
+// .auth(token, {type:'bearer'} )
+// .set({ Authorization: `Bearer ${token}` })
+
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .auth(token, {type:'bearer'} )
       .expect(204)
+      //.auth(token, {type:'bearer'} )
+      
 
     const blogsAtEnd = await listHelper.blogsInDb()
 
@@ -299,6 +367,7 @@ describe('title or url fields missing gives status code 400', () => {
   test('title missing gives status code 400', async () => {
     await api
       .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
       .send(oneBlogTitleMissing)
       .expect(400)
   })
@@ -306,6 +375,7 @@ describe('title or url fields missing gives status code 400', () => {
   test('url missing gives status code 400', async () => {
     await api
       .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
       .send(oneBlogUrlMissing)
       .expect(400)
   })
@@ -317,13 +387,13 @@ describe('updating a specific blog is possible', () => {
     await Blog.insertMany(initialBlogs)
   })
 
-
   test('specific blog is updated', async () => {
     const blogsAtStart = await listHelper.blogsInDb()
     const blogToUpdate = blogsAtStart[0]
 
     await api
       .put(`/api/blogs/${blogToUpdate.id}`)
+      .auth(token, {type:'bearer'} )
       .send(oneBlogToUpdate)
       .expect(200)
     const blogsAtEnd = await listHelper.blogsInDb()
@@ -331,6 +401,7 @@ describe('updating a specific blog is possible', () => {
     expect(likes).toBe(10)
   })
 })
+
 
 afterAll(async () => {
   await mongoose.connection.close()

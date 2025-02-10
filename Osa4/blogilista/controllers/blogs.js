@@ -1,17 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-
-/*
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-*/
+// const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -33,39 +23,27 @@ blogsRouter.get('/:id', (request, response, next) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-  const user = request.user
-/*
-  // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
-*/
 
   // if no user defined, set the first one
   // const users = await User.find({})
   // user = users[0]
-  
-  // how to handle badly formatted id?
-  // if(body.userId !== undefined){
-  //  user = await User.findById(body.userId)
-  // }
 
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes || 0,
-    user: user._id
-  })
-
-  if(blog.title === undefined || blog.title === null){
+  if(request.user === undefined || request.user === null ){
+    response.status(401).json({ error: 'Unauthorized' }).end()
+  } else if(body.title === undefined || body.title === null){
     response.status(400).end()
-  } else if(blog.url === undefined || blog.url === null){
+  } else if(body.url === undefined || body.url === null){
     response.status(400).end()
   } else {
+    const user = request.user
+
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes || 0,
+      user: user._id
+    })
 
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -77,15 +55,10 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
 
-  /*
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-
-  const user = await User.findById(decodedToken.id)
-  */
+  // user missing?
+  if(request.user === undefined || request.user === null ){
+    return response.status(401).json({ error: 'Unauthorized' }).end()
+  } 
 
   const user = request.user
   const blog = await Blog.findById(request.params.id)
@@ -95,7 +68,6 @@ blogsRouter.delete('/:id', async (request, response) => {
     return response.status(400).json({ error: 'blog or user missing' })
   }
   
-
   if(blog.user.toString() === user.id.toString()){
     // delete
     await Blog.findByIdAndDelete(request.params.id)
@@ -103,17 +75,16 @@ blogsRouter.delete('/:id', async (request, response) => {
   } else {
     // unauthorized
     return response.status(401).json({ error: 'delete unauthorized' })
-  }
-
-  // await Blog.findByIdAndDelete(request.params.id)
-  
+  }  
 })
 
 // update user?
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  const blog = {
+  // check user!!
+
+  const blog = {    //const token = request.token.toString()
     title: body.title,
     author: body.author,
     url: body.url,
