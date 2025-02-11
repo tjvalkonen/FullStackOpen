@@ -55,26 +55,34 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
 
-  // user missing?
-  if(request.user === undefined || request.user === null ){
-    return response.status(401).json({ error: 'Unauthorized' }).end()
-  } 
+  if (request.user === undefined || request.user === null ){
+    response.status(401).json({ error: 'Unauthorized' }).end()
+  } else if (request.params.id === undefined || request.params.id === null ) {
+    response.status(400).json({ error: 'blog id missing' }).end()
+  }
 
-  const user = request.user
   const blog = await Blog.findById(request.params.id)
 
-  // console.log(user.id.toString())
-  if (!user || !blog) {
-    return response.status(400).json({ error: 'blog or user missing' })
+  if(blog === undefined || blog === null){
+    // console.log(`Blog not found`)
+    response.status(400).json({ error: 'blog not found' }).end()
   }
-  
-  if(blog.user.toString() === user.id.toString()){
     // delete
+  let user = request.user
+  
+  // console.log(`user_id!!: ${user._id}`)
+  // console.log(`blog_id: ${blog._id}`)
+  // console.log(`blog_user: ${blog.user}`)
+  // console.log(`blog.id: ${request.params.id}`)
+  // console.log(`user.id: ${user.id.toString()}`)
+
+  if(blog.user.toString() === user.id.toString()){
+    // console.log("DELETE?")
     await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end()
+    response.status(204).end() 
   } else {
     // unauthorized
-    return response.status(401).json({ error: 'delete unauthorized' })
+    response.status(401).json({ error: 'delete unauthorized' })
   }  
 })
 
@@ -83,8 +91,7 @@ blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
   // check user!!
-
-  const blog = {    //const token = request.token.toString()
+  const blog = {
     title: body.title,
     author: body.author,
     url: body.url,

@@ -19,6 +19,7 @@ describe('when there is initially one user at db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
+    // Superuser for teting
     const passwordHash = await bcrypt.hash('sekret', 10)
     const user = new User({ username: 'root', name: 'Superuser', passwordHash })
 
@@ -64,9 +65,7 @@ describe('when there is initially one user at db', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await listHelper.usersInDb()
-    // assert(result.body.error.includes('expected `username` to be unique'))
     expect(result.body.error).toContain('expected `username` to be unique')
-    // assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     expect(usersAtEnd.length).toEqual(usersAtStart.length)
   })
 
@@ -115,6 +114,10 @@ describe('when there is initially one user at db', () => {
 let token = ''
 let loggedUser = User
 
+// testing login for second user
+let token2 = ''
+let loggedUser2 = User
+
 describe('login succesfull with Superuser', () => {
   test('login succeeds with status code 200 if username and password are valid', async () => {
     const Superuser = {
@@ -131,11 +134,49 @@ describe('login succesfull with Superuser', () => {
 
       token = result.body.token.toString()
       loggedUser = result.body.User
+    })
+})
+
+describe('login succesfull with testUser', () => {
+
+  beforeEach(async () => {
+    // Adding second user for testing
+    const user2 = {
+      username: 'testuser',
+      name: 'testuser',
+      password: 'testsekret',
+    }
+
+    await api
+    .post('/api/users')
+    .send(user2)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+    // console.log(await listHelper.usersInDb())
+  })
+
+  test('login succeeds with status code 200 if username and password are valid', async () => {
+    const logintest2 = {
+      username: 'testuser',
+      name: 'testuser',
+      password: 'testsekret',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(logintest2)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      token2 = result.body.token.toString()
+      loggedUser2 = result.body.User
       // console.log(token) 
       // console.log(`Bearer ${token}`)
     })
 })
 
+// user: loggedUser.id not working --> undefined
 const initialBlogs = [
   {
     _id: '5a422a851b54a676234d17f7',
@@ -221,8 +262,6 @@ const oneBlogToUpdate =
   likes: 10,
 }
 
-// Adding login and token for testing...
-
 describe('when there is initially some blogs saved', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
@@ -293,7 +332,6 @@ describe('adding one blog to database without authentication token returns statu
   })
 })
 
-
 describe('adding one blog without likes to database with HTTP POST and token', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
@@ -317,45 +355,88 @@ describe('adding one blog without likes to database with HTTP POST and token', (
 describe('deletion of a blog', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
-    await Blog.insertMany(initialBlogs)
+
+      await api
+      .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
+      .send(secondExtraBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+      await api
+      .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
+      .send(oneExtraBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+      await api
+      .post('/api/blogs')
+      .auth(token, {type:'bearer'} )
+      .send(oneExtraBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('succeeds with status code 204 if id is valid', async () => {
-    const Superuser = {
-      username: 'root',
-      name: 'Superuser',
-      password: 'sekret',
-    }
-  
-    const result = await api
-      .post('/api/login')
-      .send(Superuser)
-  
-    token = result.body.token.toString()
-    // console.log(`Bearer ${token}`)
-
     const blogsAtStart = await listHelper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
-
-// .set('Authorization', 'Bearer ' + token) // Works.
-// .auth(token, {type:'bearer'} )
-// .set({ Authorization: `Bearer ${token}` })
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
       .auth(token, {type:'bearer'} )
-      .expect(204)
-      //.auth(token, {type:'bearer'} )
-      
+      .expect(204)     
 
     const blogsAtEnd = await listHelper.blogsInDb()
 
-    expect(blogsAtEnd).toHaveLength(
-      initialBlogs.length - 1
-    )
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
 
     const contents = blogsAtEnd.map(r => r.title)
     expect(contents).not.toContain(blogToDelete.title)
+  })
+
+  test('fails with status code 401 if no token is defined', async () => {
+    const blogsAtStart = await listHelper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await listHelper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+  })
+
+  test('fails with status code 401 with other accounts login token', async () => {
+    const testUser2 = {
+      username: 'testuser',
+      name: 'testuser',
+      password: 'testsekret',
+    }
+
+    const result = await api
+      .post('/api/login')
+      .send(testUser2)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      token2 = result.body.token.toString()
+      loggedUser2 = result.body.User
+
+    const blogsAtStart = await listHelper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .auth(token2, {type:'bearer'} )
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await listHelper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
   })
 })
 
@@ -401,7 +482,6 @@ describe('updating a specific blog is possible', () => {
     expect(likes).toBe(10)
   })
 })
-
 
 afterAll(async () => {
   await mongoose.connection.close()
