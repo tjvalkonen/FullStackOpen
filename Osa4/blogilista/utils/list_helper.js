@@ -47,10 +47,39 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
+const mostBlogs = (blogs) => {
+  // Authors + blogs
+  let mostBlogsAuthor = {
+    author: '',
+    blogs: 0
+  }
+
+  const mapAuthors = new Map()
+
+  if(blogs.length === 0){
+    return mostBlogsAuthor
+  } else {
+    for (let i = 0; i < blogs.length; i++){ 
+      let includes = mapAuthors.has(blogs[i].author)
+      if (includes) {
+        let b = mapAuthors.get(blogs[i].author) + 1
+        mapAuthors.set(blogs[i].author, b)
+      } else {
+        mapAuthors.set(blogs[i].author, 1)
+      }
+    }
+  }
+
+  console.log(mapAuthors)
+
+  return ''
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
   blogsInDb,
   usersInDb,
+  mostBlogs
 }

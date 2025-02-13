@@ -67,7 +67,6 @@ blogsRouter.delete('/:id', async (request, response) => {
     // console.log(`Blog not found`)
     response.status(400).json({ error: 'blog not found' }).end()
   }
-    // delete
   let user = request.user
   
   // console.log(`user_id!!: ${user._id}`)
@@ -86,11 +85,10 @@ blogsRouter.delete('/:id', async (request, response) => {
   }  
 })
 
-// update user?
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  // check user!!
+  // check user?
   const blog = {
     title: body.title,
     author: body.author,

@@ -183,6 +183,15 @@ describe('total likes', () => {
 
 })
 
+describe('most blogs', () => {
+  test('author with most blogs is returned', () => {
+    const result = listHelper.mostBlogs(listWithSixBlogs)
+
+    expect(result).toBe('')
+  })
+
+})
+
 // most blogs
 
 // most likes
