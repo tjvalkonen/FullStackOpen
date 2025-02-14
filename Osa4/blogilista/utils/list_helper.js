@@ -70,9 +70,54 @@ const mostBlogs = (blogs) => {
     }
   }
 
-  console.log(mapAuthors)
+  mapAuthors.forEach(findMostBlogsAuthor)
 
-  return ''
+  function findMostBlogsAuthor(value, key, map) {
+    // console.log(`map.get('${key}') = ${value}`);
+    if(mostBlogsAuthor.blogs < value){
+      mostBlogsAuthor.author = key
+      mostBlogsAuthor.blogs = value
+    }
+  }
+  // console.log(mostBlogsAuthor)
+  return mostBlogsAuthor
+}
+
+const mostLikes = (blogs) => {
+  // Authors + blogs
+  let mostLikesAuthor = {
+    author: '',
+    likes: 0
+  }
+
+  const mapAuthors = new Map()
+
+  if(blogs.length === 0){
+    return mostLikesAuthor
+  } else {
+    for (let i = 0; i < blogs.length; i++){ 
+      let includes = mapAuthors.has(blogs[i].author)
+      if (includes) {
+        let l = mapAuthors.get(blogs[i].author) + blogs[i].likes
+        mapAuthors.set(blogs[i].author, l)
+      } else {
+        mapAuthors.set(blogs[i].author, blogs[i].likes)
+      }
+    }
+  }
+
+  // console.log(mapAuthors)
+  mapAuthors.forEach(findMostLikesAuthor)
+  function findMostLikesAuthor(value, key, map) {
+    // console.log(`map.get('${key}') = ${value}`);
+    if(mostLikesAuthor.likes < value){
+      mostLikesAuthor.author = key
+      mostLikesAuthor.likes = value
+    }
+  }
+  
+  // console.log(mostLikesAuthor)
+  return mostLikesAuthor
 }
 
 module.exports = {
@@ -81,5 +126,6 @@ module.exports = {
   favouriteBlog,
   blogsInDb,
   usersInDb,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }

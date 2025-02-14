@@ -187,11 +187,46 @@ describe('most blogs', () => {
   test('author with most blogs is returned', () => {
     const result = listHelper.mostBlogs(listWithSixBlogs)
 
-    expect(result).toBe('')
+    let mostBlogsAuthor = {
+      author: 'Robert C. Martin',
+      blogs: 3
+    }
+
+    expect(result).toStrictEqual(mostBlogsAuthor)
   })
 
+  test('when list is empty no author is returned and blog count is zero', () => {
+    const result = listHelper.mostBlogs(emptyList)
+
+    let mostBlogsAuthor = {
+      author: '',
+      blogs: 0
+    }
+
+    expect(result).toStrictEqual(mostBlogsAuthor)
+  })
 })
 
-// most blogs
+describe('most likes', () => {
+  test('author with most likes is returned', () => {
+    const result = listHelper.mostLikes(listWithSixBlogs)
 
-// most likes
+    let mostLikesAuthor = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    }
+
+    expect(result).toStrictEqual(mostLikesAuthor)
+  })
+
+  test('when list is empty no author is returned and likes count is zero', () => {
+    const result = listHelper.mostLikes(emptyList)
+
+    let mostLikesAuthor = {
+      author: '',
+      likes: 0
+    }
+
+    expect(result).toStrictEqual(mostLikesAuthor)
+  })
+})
