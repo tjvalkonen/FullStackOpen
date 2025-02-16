@@ -27,5 +27,5 @@ Note right of browser: The JavaScript code on the browser fetches the JSON from 
     server-->>browser: [{ "content": "", "date": "2024-06-10T15:03:31.269Z" }, ... ]
     deactivate server
 
-Note right of browser: The browser executes the callback function.
+Note right of browser: The browser executes the callback function that renders the notes.
 ```

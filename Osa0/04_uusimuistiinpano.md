@@ -33,5 +33,5 @@ Note right of browser: The JavaScript code on the browser fetches the JSON from 
     server-->>browser: [{ "content": "Hola desde España!", "date": "2024-06-10T14:25:47.610Z" }, ... ]
     deactivate server
 
-Note right of browser: The browser executes the callback function.
+Note right of browser: The browser executes the callback function that renders the notes.
 ```
