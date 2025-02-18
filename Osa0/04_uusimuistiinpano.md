@@ -3,12 +3,11 @@ sequenceDiagram
     participant browser
     participant server
 
+Note right of browser: Pressing the save button sends the content of the form to the server.
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
-    server-->>browser: HTML document
+    server-->>browser: Server responds with HTTP-status 302. (redirect).
     deactivate server
-
-Note left of server: Server responds with HTTP-status 302. (redirect).
 
 Note right of browser: The browser responds to redirct and makes a HTTP GET -request.
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
