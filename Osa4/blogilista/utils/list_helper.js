@@ -59,7 +59,7 @@ const mostBlogs = (blogs) => {
   if(blogs.length === 0){
     return mostBlogsAuthor
   } else {
-    for (let i = 0; i < blogs.length; i++){ 
+    for (let i = 0; i < blogs.length; i++){
       let includes = mapAuthors.has(blogs[i].author)
       if (includes) {
         let b = mapAuthors.get(blogs[i].author) + 1
@@ -95,7 +95,7 @@ const mostLikes = (blogs) => {
   if(blogs.length === 0){
     return mostLikesAuthor
   } else {
-    for (let i = 0; i < blogs.length; i++){ 
+    for (let i = 0; i < blogs.length; i++){
       let includes = mapAuthors.has(blogs[i].author)
       if (includes) {
         let l = mapAuthors.get(blogs[i].author) + blogs[i].likes
@@ -115,7 +115,7 @@ const mostLikes = (blogs) => {
       mostLikesAuthor.likes = value
     }
   }
-  
+
   // console.log(mostLikesAuthor)
   return mostLikesAuthor
 }

@@ -68,7 +68,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     response.status(400).json({ error: 'blog not found' }).end()
   }
   let user = request.user
-  
+
   // console.log(`user_id!!: ${user._id}`)
   // console.log(`blog_id: ${blog._id}`)
   // console.log(`blog_user: ${blog.user}`)
@@ -78,11 +78,11 @@ blogsRouter.delete('/:id', async (request, response) => {
   if(blog.user.toString() === user.id.toString()){
     // console.log("DELETE?")
     await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end() 
+    response.status(204).end()
   } else {
     // unauthorized
     response.status(401).json({ error: 'delete unauthorized' })
-  }  
+  }
 })
 
 blogsRouter.put('/:id', async (request, response) => {

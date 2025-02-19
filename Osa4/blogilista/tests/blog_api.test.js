@@ -132,9 +132,9 @@ describe('login succesfull with Superuser', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-      token = result.body.token.toString()
-      loggedUser = result.body.User
-    })
+    token = result.body.token.toString()
+    loggedUser = result.body.User
+  })
 })
 
 describe('login succesfull with testUser', () => {
@@ -148,10 +148,10 @@ describe('login succesfull with testUser', () => {
     }
 
     await api
-    .post('/api/users')
-    .send(user2)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+      .post('/api/users')
+      .send(user2)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
     // console.log(await listHelper.usersInDb())
   })
@@ -169,11 +169,11 @@ describe('login succesfull with testUser', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-      token2 = result.body.token.toString()
-      loggedUser2 = result.body.User
-      // console.log(token) 
-      // console.log(`Bearer ${token}`)
-    })
+    token2 = result.body.token.toString()
+    loggedUser2 = result.body.User
+    // console.log(token)
+    // console.log(`Bearer ${token}`)
+  })
 })
 
 // user: loggedUser.id not working --> undefined
@@ -294,7 +294,7 @@ describe('adding one blog to database with HTTP POST and token', () => {
 
     await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -338,7 +338,7 @@ describe('adding one blog without likes to database with HTTP POST and token', (
 
     await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(secondExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -356,23 +356,23 @@ describe('deletion of a blog', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
 
-      await api
+    await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(secondExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-      await api
+    await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-      await api
+    await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneExtraBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -384,8 +384,8 @@ describe('deletion of a blog', () => {
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
-      .auth(token, {type:'bearer'} )
-      .expect(204)     
+      .auth(token, { type:'bearer' } )
+      .expect(204)
 
     const blogsAtEnd = await listHelper.blogsInDb()
 
@@ -422,15 +422,15 @@ describe('deletion of a blog', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-      token2 = result.body.token.toString()
-      loggedUser2 = result.body.User
+    token2 = result.body.token.toString()
+    loggedUser2 = result.body.User
 
     const blogsAtStart = await listHelper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
-      .auth(token2, {type:'bearer'} )
+      .auth(token2, { type:'bearer' } )
       .expect(401)
       .expect('Content-Type', /application\/json/)
 
@@ -448,7 +448,7 @@ describe('title or url fields missing gives status code 400', () => {
   test('title missing gives status code 400', async () => {
     await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneBlogTitleMissing)
       .expect(400)
   })
@@ -456,7 +456,7 @@ describe('title or url fields missing gives status code 400', () => {
   test('url missing gives status code 400', async () => {
     await api
       .post('/api/blogs')
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneBlogUrlMissing)
       .expect(400)
   })
@@ -474,7 +474,7 @@ describe('updating a specific blog is possible', () => {
 
     await api
       .put(`/api/blogs/${blogToUpdate.id}`)
-      .auth(token, {type:'bearer'} )
+      .auth(token, { type:'bearer' } )
       .send(oneBlogToUpdate)
       .expect(200)
     const blogsAtEnd = await listHelper.blogsInDb()
