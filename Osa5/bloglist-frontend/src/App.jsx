@@ -86,106 +86,44 @@ const App = () => {
     window.localStorage.clear()
     window.location.reload(false)
   }
-/*
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      title:<input
-        value={newTitle}
-        onChange={handleTitleChange}
-      />
-      <br></br>
-      author:<input
-        value={newAuthor}
-        onChange={handleAuthorChange}
-      />
-      <br></br>
-      url:<input
-        value={newUrl}
-        onChange={handleUrlChange}
-      />
-      <br></br>
-      <button type="submit">create</button>
-    </form>  
-  )
-    */
-/*
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-  
+
+  const addBlog = async (blogObject) => {
+    // blogFormRef.current.toggle
+    blogFormRef.current.toggleVisibility()
+
     try {
       await blogService
       .create(blogObject)
-        .then(returnedBlog => {
+  
+      .then(returnedBlog => {
+  
         setBlogs(blogs.concat(returnedBlog))
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
         setErrorMessage('a new blog ' + returnedBlog.title + ' by '+ returnedBlog.author +' added')
         setTimeout(() => {
           setErrorMessage(null)
           }, 5000)
-      }
-    )
+      })
     } catch (exception) {
       setErrorMessage(exception.message)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-
   }
-  */
-/*
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
-  }
-*/
-  const addBlog = (blogObject) => {
-    // blogFormRef.current.toggle
-    blogFormRef.current.toggleVisibility()
-    blogService
-    .create(blogObject)
-    .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-    })
-  }
-
-
+  
 // Refactored all under one return
-/*
-  if (user === null) {
-    return (
-      <div>
-        
-        <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
-        {loginForm()}
-      </div>
-    )
-  }
-*/
+
   return (
     <div>
+
       {!user &&
       <div>
         <h2>Log in to application</h2>
         <Notification message={errorMessage} />
         {loginForm()}
-
-      </div>
-      
+      </div>  
       }
+
       {user && 
       <div>
       <h2>blogs</h2>
@@ -206,25 +144,6 @@ const App = () => {
       }
 
     </div>
-    /*
-    <div>
-      
-      <h2>blogs</h2>
-      <Notification message={errorMessage} />
-      <div>
-        <p>{user.name} logged in <button onClick={onClickLogout}>logout</button></p>
-
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-        <BlogForm createBlog={addBlog} />
-      </Togglable>
-
-      </div>
-      <br></br>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
-    */
   )
 }
 
