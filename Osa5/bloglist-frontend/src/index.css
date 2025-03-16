@@ -17,3 +17,14 @@
     padding: 10px;
     margin-bottom: 10px;
   }
+
+  .blog {
+    color: rgb(11, 11, 11);
+    background: white;
+    font-size: 16px;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 8px;
+    margin-bottom: 4px;
+  }

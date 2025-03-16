@@ -9,9 +9,6 @@ import BlogForm from './components/BlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
-//  const [newTitle, setNewTitle] = useState('')
-//  const [newAuthor, setNewAuthor] = useState('')
-//  const [newUrl, setNewUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
 //  const [notificationMessage, setNotificationMessage] = useState(null)
   const [username, setUsername] = useState('') 
@@ -19,6 +16,7 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    console.log("Get all blogs")
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
@@ -57,7 +55,7 @@ const App = () => {
       }, 5000)
     }
   }
-
+// refactor to component
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -88,7 +86,7 @@ const App = () => {
   }
 
   const addBlog = async (blogObject) => {
-    // blogFormRef.current.toggle
+
     blogFormRef.current.toggleVisibility()
 
     try {
@@ -112,7 +110,6 @@ const App = () => {
   }
   
 // Refactored all under one return
-
   return (
     <div>
 
@@ -131,14 +128,14 @@ const App = () => {
       <div>
         <p>{user.name} logged in <button onClick={onClickLogout}>logout</button></p>
 
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <Togglable buttonLabel='create new blog' buttonLabelCancel='cancel' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
 
       </div>
       <br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} username={blog.user.name}/>
       )}
       </div>
       }
