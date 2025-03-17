@@ -22,25 +22,25 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
   return (
     <div>
       <div className="blog">
-      <div style={hideWhenVisible}>
-        
-      {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
-      </div>
-      <div style={showWhenVisible}>
-      {blog.title} {blog.author} <button onClick={toggleVisibility}>hide</button>
-      <br></br>
-        {blog.url}
-        <br></br>
-        likes {blog.likes} <button onClick={updateLike}>Like</button>
-        <br></br>
-      {username}
-      <br></br>
-      <div style={showWhenCurrentUser}>
-      <button id="confirmButton" onClick={removeBlog}>remove</button>
+        <div style={hideWhenVisible}>
+
+          {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
+        </div>
+        <div style={showWhenVisible}>
+          {blog.title} {blog.author} <button onClick={toggleVisibility}>hide</button>
+          <br></br>
+          {blog.url}
+          <br></br>
+        likes {blog.likes} <button id="likeButton" onClick={updateLike}>Like</button>
+          <br></br>
+          {username}
+          <br></br>
+          <div style={showWhenCurrentUser}>
+            <button id="confirmButton" onClick={removeBlog}>remove</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
   )
 
 }

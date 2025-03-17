@@ -49,3 +49,35 @@
     color: rgb(65, 0, 0);
     background: lightcoral;
   }
+
+  #confirmButton:active {
+
+    color: rgb(255, 255, 255);
+    background: lightcoral;
+  }
+
+
+  #likeButton {
+    color: darkblue;
+    background: lightblue;
+    font-size: 12px;
+    font-weight:700;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: darkblue;
+  }
+
+  #likeButton:hover {
+    color: lightblue;
+    background: darkblue;
+  }
+
+  #likeButton:active {
+    color: rgb(255, 255, 255);
+    background: blue;
+  }
