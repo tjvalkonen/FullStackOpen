@@ -108,6 +108,30 @@ const App = () => {
       }, 5000)
     }
   }
+
+  const updateLikeOf = id => {
+    const blog = blogs.find(b => b.id === id)
+    let newLikes = blog.likes + 1
+    
+
+    console.log("---> New likes: " + newLikes)
+    const changedBlog = { ...blog, likes: newLikes }
+  
+    blogService
+      .update(id, changedBlog)
+        .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+      .catch(error => {
+        setErrorMessage(
+          `Blog '${blog.name}' was already removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+  }
+
   
 // Refactored all under one return
   return (
@@ -135,7 +159,7 @@ const App = () => {
       </div>
       <br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} username={blog.user.name}/>
+        <Blog key={blog.id} blog={blog} username={blog.user.name} updateLike={() => updateLikeOf(blog.id)}/>
       )}
       </div>
       }

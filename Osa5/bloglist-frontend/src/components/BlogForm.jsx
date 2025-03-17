@@ -15,8 +15,7 @@ const BlogForm = ({createBlog}) => {
         setNewTitle('')
         setNewAuthor('')
         setNewUrl('')
-    }
-    
+    }   
 
 return (
     <div>
@@ -25,19 +24,16 @@ return (
       title:<input
         value={newTitle}
         onChange={event => setNewTitle(event.target.value)}
-        // onChange={handleTitleChange}
       />
       <br></br>
       author:<input
         value={newAuthor}
         onChange={event => setNewAuthor(event.target.value)}
-        // onChange={handleAuthorChange}
       />
       <br></br>
       url:<input
         value={newUrl}
         onChange={event => setNewUrl(event.target.value)}
-        // onChange={handleUrlChange}
       />
       <br></br>
       <button type="submit">create</button>
