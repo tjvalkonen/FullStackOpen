@@ -22,6 +22,10 @@ const App = () => {
     )  
   }, [])
 
+  // sorting blogs by likes
+  blogs.sort((first, second) => second.likes - first.likes)
+
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if(loggedUserJSON) {
