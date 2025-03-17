@@ -139,6 +139,24 @@ const App = () => {
       })
   }
 
+const removeBlogOfId = id => {
+  const blog = blogs.find(b => b.id === id)
+  blogService
+    .remove(id, blog)
+    .then(response => {
+      blogService.getAll().then(blogs =>
+        setBlogs( blogs ))
+    }
+    )
+    .catch(error => {
+      setErrorMessage(
+        `Blog '${blog.name}' was already removed from server`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    })
+}
   
 // Refactored all under one return
   return (
@@ -166,7 +184,7 @@ const App = () => {
       </div>
       <br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} username={blog.user.name} updateLike={() => updateLikeOf(blog.id)}/>
+        <Blog key={blog.id} blog={blog} username={blog.user.name} updateLike={() => updateLikeOf(blog.id)} removeBlog={() => removeBlogOfId(blog.id)}/>
       )}
       </div>
       }
