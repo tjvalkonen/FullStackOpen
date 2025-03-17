@@ -157,6 +157,19 @@ const removeBlogOfId = id => {
       }, 5000)
     })
 }
+
+const isCurrentUserOf = id => {
+  const blog = blogs.find(b => b.id === id)
+
+  // console.log("blog user id: " + blog.user.username)
+  // console.log("logged user: " +  JSON.stringify(user.username))
+
+  if(blog.user.username === user.username){
+    return true
+  } else {
+    return false
+  }
+}
   
 // Refactored all under one return
   return (
@@ -184,7 +197,7 @@ const removeBlogOfId = id => {
       </div>
       <br></br>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} username={blog.user.name} updateLike={() => updateLikeOf(blog.id)} removeBlog={() => removeBlogOfId(blog.id)}/>
+        <Blog key={blog.id} blog={blog} username={blog.user.name} updateLike={() => updateLikeOf(blog.id)} removeBlog={() => removeBlogOfId(blog.id)} isCurrentUser={(isCurrentUserOf(blog.id))}/>
       )}
       </div>
       }

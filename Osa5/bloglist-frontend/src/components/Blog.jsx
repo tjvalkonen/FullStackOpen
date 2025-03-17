@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({ blog, username, updateLike, removeBlog }) => {
+
+const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
   const [visible, setVisible] = useState(false)
+  // const [isUser, setIsUser] = useState(isCurrentUser)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -10,6 +11,10 @@ const Blog = ({ blog, username, updateLike, removeBlog }) => {
   const toggleVisibility = () => {
     setVisible(!visible)
   }
+
+  // console.log("is current user" + isCurrentUser)
+
+  const showWhenCurrentUser = { display: isCurrentUser ? '' : 'none' }
 
   return (
     <div>
@@ -27,7 +32,9 @@ const Blog = ({ blog, username, updateLike, removeBlog }) => {
         <br></br>
       {username}
       <br></br>
+      <div style={showWhenCurrentUser}>
       <button onClick={removeBlog}>remove</button>
+      </div>
     </div>
   </div>
   </div>
