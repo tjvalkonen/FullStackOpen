@@ -141,7 +141,11 @@ const App = () => {
 
 const removeBlogOfId = id => {
   const blog = blogs.find(b => b.id === id)
-  blogService
+  const message = `Remove blog ${blog.title} by ${blog.author}`
+  const confirm = window.confirm(message)
+
+  if(confirm){
+    blogService
     .remove(id, blog)
     .then(response => {
       blogService.getAll().then(blogs =>
@@ -156,6 +160,7 @@ const removeBlogOfId = id => {
         setErrorMessage(null)
       }, 5000)
     })
+  }
 }
 
 const isCurrentUserOf = id => {
@@ -170,6 +175,8 @@ const isCurrentUserOf = id => {
     return false
   }
 }
+
+
   
 // Refactored all under one return
   return (

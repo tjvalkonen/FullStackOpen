@@ -16,6 +16,9 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
 
   const showWhenCurrentUser = { display: isCurrentUser ? '' : 'none' }
 
+  // const confirmButton = document.querySelector("#confirmButton")
+
+
   return (
     <div>
       <div className="blog">
@@ -33,7 +36,7 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
       {username}
       <br></br>
       <div style={showWhenCurrentUser}>
-      <button onClick={removeBlog}>remove</button>
+      <button id="confirmButton" onClick={removeBlog}>remove</button>
       </div>
     </div>
   </div>
