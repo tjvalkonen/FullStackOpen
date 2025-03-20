@@ -1,9 +1,8 @@
 import { useState } from 'react'
 
-
-const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
+const Blog = ({ blog , username, updateLike, removeBlog, isCurrentUser }) => {
   const [visible, setVisible] = useState(false)
-  // const [isUser, setIsUser] = useState(isCurrentUser)
+  const [isUser, setIsUser] = useState(isCurrentUser)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -16,18 +15,15 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
 
   const showWhenCurrentUser = { display: isCurrentUser ? '' : 'none' }
 
-  // const confirmButton = document.querySelector("#confirmButton")
-
-
   return (
     <div>
       <div className="blog">
-        <div style={hideWhenVisible}>
+        <div style={hideWhenVisible} id="lessInfoDiv">
 
-          {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
+          {blog.title} {blog.author} <button id="ShowMore" onClick={toggleVisibility}>view</button>
         </div>
-        <div style={showWhenVisible}>
-          {blog.title} {blog.author} <button onClick={toggleVisibility}>hide</button>
+        <div style={showWhenVisible} id="moreInfoDiv">
+          {blog.title} {blog.author} <button id="ShowLess" onClick={toggleVisibility}>hide</button>
           <br></br>
           {blog.url}
           <br></br>
@@ -42,9 +38,6 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
       </div>
     </div>
   )
-
 }
-
-
 
 export default Blog
