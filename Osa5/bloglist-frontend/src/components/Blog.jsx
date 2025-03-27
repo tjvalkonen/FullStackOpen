@@ -20,10 +20,10 @@ const Blog = ({ blog , username, updateLike, removeBlog, isCurrentUser }) => {
       <div className="blog" data-testid='test-blog'>
         <div style={hideWhenVisible} id="lessInfoDiv">
 
-          {blog.title} {blog.author} <button id="ShowMore" onClick={toggleVisibility}>view</button>
+          <h4>{blog.title}</h4> {blog.author} <button id="ShowMore" onClick={toggleVisibility}>view</button>
         </div>
         <div style={showWhenVisible} id="moreInfoDiv">
-          {blog.title} {blog.author} <button id="ShowLess" onClick={toggleVisibility}>hide</button>
+          <h4>{blog.title}</h4> {blog.author} <button id="ShowLess" onClick={toggleVisibility}>hide</button>
           <br></br>
           {blog.url}
           <br></br>

@@ -119,16 +119,16 @@ const App = () => {
   const updateLikeOf = id => {
     const blog = blogs.find(b => b.id === id)
     let newLikes = blog.likes + 1
-    console.log('Update like BLOG title: ' + blog.title)
-    console.log('---> New likes: ' + newLikes)
+    //console.log('Update like BLOG title: ' + blog.title)
+    //console.log('---> New likes: ' + newLikes)
     const changedBlog = { ...blog, likes: newLikes }
 
     blogService
       .update(id, changedBlog)
       .then(returnedBlog => {
-        console.log('Returned BLOG: ' + returnedBlog)
+        // console.log('Returned BLOG: ' + returnedBlog)
         // setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-        console.log('Setting blogs')
+        // console.log('Setting blogs')
         blogService.getAll().then(blogs =>
           setBlogs( blogs ))
       })
