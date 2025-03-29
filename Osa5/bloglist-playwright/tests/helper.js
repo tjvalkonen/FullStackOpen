@@ -15,13 +15,14 @@ const loginWith = async (page, username, password)  => {
 
     await page.getByRole('button', { name: 'create' }).click()
 
+    // locator('div').filter({ hasText: /^TitleTestBlog003 Author Third view$/ }).locator('#ShowMore')
+    
     
     // await page.getByTestId('test-blog').waitFor()
     // await page.getByRole('button', { name: 'create new blog' }).waitFor()
     // not working -- getByText('TitleTestBlog001') resolved to 3 elements
     // await page.getByText(title).waitFor()
     await page.getByRole('heading', { name: title }).waitFor()
-    // await expect(page.getByRole('heading', { name: 'Sign up' })).toBeVisible();
 }
 
 /*
@@ -45,12 +46,16 @@ const addLike = async (page, title) => {
       const selectedBlogText = await page.getByText(title)
       const selectedBlogElement = await selectedBlogText.locator('..')
       await selectedBlogElement.getByRole('button', { name: 'view' }).click()
+
       // await expect(selectedBlogElement.getByText('Like')).toBeVisible()
       // await page.waitFor(1000)
 
+      // await page.locator('div').filter({ hasText: /^TitleTestBlog003 Author Third view$/ }).locator('#ShowMore').click()
+
+      // await page.locator('div').filter({ hasText: title }).locator('..').getByRole('button', { name: 'view' }).click()
 
       await selectedBlogElement.getByRole('button', { name: 'Like' }).click()
-      // close detailed view
+      
 
       // Wait
       // const responsePromise =  getFulfilledResponse(page, title)
@@ -58,7 +63,9 @@ const addLike = async (page, title) => {
       // const responseBody = await response.json()
       // console.log(responsePromise)
 
+      // close detailed view
       await selectedBlogElement.getByRole('button', { name: 'hide' }).click()
+      // await selectedBlogElement.getByRole('button', { name: 'view' }).waitFor()
 
 }
   
