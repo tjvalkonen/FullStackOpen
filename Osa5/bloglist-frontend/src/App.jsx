@@ -179,9 +179,6 @@ const App = () => {
     }
   }
 
-
-
-  // Refactored all under one return
   return (
     <div>
 

@@ -52,7 +52,23 @@ describe('Blog app', () => {
       await createBlog(page, 'TitleTestBlog002', 'Author Second', 'www.secondurl.com')
       await expect(page.getByRole('heading', { name: 'TitleTestBlog002' })).toBeVisible();
     })
-    test('a new blog can be liked', async ({ page }) => {
+    test('a new blog can be liked once', async ({ page }) => {
+      await createBlog(page, 'TitleTestBlog001', 'Author First', 'www.firsturl.com')
+      await createBlog(page, 'TitleTestBlog002', 'Author Second', 'www.secondurl.com')
+      await createBlog(page, 'TitleTestBlog003', 'Author Third', 'www.thirdurl.com')
+      await createBlog(page, 'TitleTestBlog004', 'Author Fourth', 'www.fourthurl.com')
+
+      
+      await addLike(page, 'TitleTestBlog002')
+  
+     
+      const selectedBlogText = await page.getByText('TitleTestBlog002')
+      const selectedBlogElement = await selectedBlogText.locator('..')
+      await selectedBlogElement.getByRole('button', { name: 'view' }).click()
+
+      await expect(page.getByText('likes 1')).toBeVisible()
+    })
+    test('a new blog can be liked twice', async ({ page }) => {
       await createBlog(page, 'TitleTestBlog001', 'Author First', 'www.firsturl.com')
       await createBlog(page, 'TitleTestBlog002', 'Author Second', 'www.secondurl.com')
       await createBlog(page, 'TitleTestBlog003', 'Author Third', 'www.thirdurl.com')
@@ -127,7 +143,7 @@ describe('Blog app', () => {
       await createBlog(page, 'TitleTestBlog007', 'Author Seventh', 'www.Seventhurl.com')
     })
 
-    test('blogs are in order with out likes', async ({ page }) => {
+    test('blogs are in order without likes', async ({ page }) => {
       /*
       const selectedBlogText = await page.getByText('TitleTestBlog001')
       const selectedBlogElement = await selectedBlogText.locator('..')
