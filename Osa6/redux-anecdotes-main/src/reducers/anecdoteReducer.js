@@ -31,13 +31,17 @@ const reducer = (state = initialState, action) => {
       { const id = action.payload.id
       const anecdoteToChange = state.find(n => n.id === id)
       const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1}
-      return state.map(anecdote =>
-        anecdote.id !== id ? anecdote : changedAnecdote 
-      ) }
+      
+      let map1 = state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote)
+      // sorting the anecdotes 
+      const newMap = Array.from(map1).sort((a, b) => b.votes - a.votes);
+
+      return newMap
+    }
+
     default:
       return state
   }
-
 }
 
 export const createAnecdote= (anecdote) => {
