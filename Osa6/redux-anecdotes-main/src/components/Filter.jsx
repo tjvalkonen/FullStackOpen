@@ -1,10 +1,13 @@
 import { filterChange } from '../reducers/filterReducer'
+import { useDispatch } from 'react-redux'
 
 const Filter = () => {
+    const dispatch = useDispatch()
+    
     const handleChange = (event) => {
       // input-kentän arvo muuttujassa event.target.value
-      console.log("Filter change " + event.input)
-      filterChange('ALL').payload = event.input
+      console.log("HandleChange Set filter: " + (event.target.value))
+      dispatch(filterChange((event.target.value)))
     }
     const style = {
       marginBottom: 10
