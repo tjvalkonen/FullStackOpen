@@ -38,6 +38,8 @@ const reducer = (state = initialState, action) => {
 
       return newMap
     }
+    case 'FILTER':
+      return state
 
     default:
       return state
