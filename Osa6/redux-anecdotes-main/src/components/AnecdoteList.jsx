@@ -7,14 +7,16 @@ const Anecdotes = () => {
   // const anecdotes = useSelector(state => state.anecdotes)
 
   const anecdotes = useSelector(({ filter, anecdotes }) => {
-    if ( filter === '' ) {
-      console.log("filter empty")
+    if ( filter === "" ) {
+      console.log("filter empty" + filter)
       return anecdotes
+    } else {
+      console.log("filter not empty: " + filter)
+      var filteredAnecdotes = anecdotes.filter(anecdotes => anecdotes.content.includes(filter))
+  
+      return filteredAnecdotes
     }
-    console.log("filter not empty: " + filter)
-    var filteredAnecdotes = anecdotes.filter(anecdotes => anecdotes.content.includes(filter))
 
-    return filteredAnecdotes
   })
 
 
