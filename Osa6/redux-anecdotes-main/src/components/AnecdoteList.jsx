@@ -8,10 +8,10 @@ const Anecdotes = () => {
 
   const anecdotes = useSelector(({ filter, anecdotes }) => {
     if ( filter === "" ) {
-      console.log("filter empty" + filter)
+      // console.log("filter empty" + filter)
       return anecdotes
     } else {
-      console.log("filter not empty: " + filter)
+      // console.log("filter not empty: " + filter)
       var filteredAnecdotes = anecdotes.filter(anecdotes => anecdotes.content.includes(filter))
   
       return filteredAnecdotes
@@ -19,11 +19,10 @@ const Anecdotes = () => {
 
   })
 
-
-    const vote = (id) => {
-      console.log('vote', id)
-      dispatch(addVoteTo(id))
-    }
+  const vote = (id) => {
+    console.log('vote', id)
+    dispatch(addVoteTo(id))
+  }
 
     return (
         <div>
