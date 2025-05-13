@@ -13,12 +13,12 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     notification(state, action) {
-      console.log("Nreducer Show: " + action.payload)
+      // console.log("Nreducer Show: " + action.payload)
       return action.payload
     },
      
     hide(state, action) {
-      console.log("Nreducer hide: " + action.payload)
+      // console.log("Nreducer hide: " + action.payload)
       return ''
     }
   }

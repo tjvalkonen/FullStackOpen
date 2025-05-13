@@ -8,7 +8,7 @@ const Anecdotes = () => {
   // const anecdotes = useSelector(state => state.anecdotes)
 
   const anecdotes = useSelector(({ filter, anecdotes }) => {
-    if ( filter === "" ) {
+    if ( filter === '' ) {
       // console.log("filter empty" + filter)
       return anecdotes
     } else {
