@@ -1,15 +1,17 @@
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
+  console.log("dispatched")
   // console.log("Notification component: ")
   // setTimeout(() => { console.log("timeout 1s")}, 1000)
 
  // const notification = useSelector(state => state.notification)
 
   const notification = useSelector(({ notification }) => {
-      //
-      return notification
+      console.log("notification  component ")
+      
 
+      return notification
   })
 
   const style = {
@@ -19,12 +21,15 @@ const Notification = () => {
   }
 
   // If notification is empty = '', "hide" it"
-if(notification === ''){
+if(notification === ""){
   return (
     <div>
     </div>
   )
 } else {
+
+  // setTimeout(() => { console.log("timeout 1s")}, 1000)
+  
   return (
     <div style={style}>
     {notification}

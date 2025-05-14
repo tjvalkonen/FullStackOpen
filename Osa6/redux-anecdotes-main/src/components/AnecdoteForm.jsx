@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { notification, hide } from '../reducers/notificationReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 // import anecdoteService from '../services/anecdotes'
 
 const NewAnecdote = () => {
@@ -15,8 +15,8 @@ const NewAnecdote = () => {
         // console.log(newAnecdote)
         dispatch(createAnecdote(content))
 
-        dispatch(notification("You created a new anecdote: " + content))
-        setTimeout(() => { dispatch(hide("Tyhjäksi! ")) }, 5000)
+        dispatch(setNotification("You created a new anecdote: " + content, 10))
+        setTimeout(() => { dispatch(clearNotification("")) }, 5000)
         
     }
     return (

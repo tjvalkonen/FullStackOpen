@@ -1,54 +1,49 @@
 {
   "anecdotes": [
     {
-      "id": "47145",
       "content": "If it hurts, do it more often",
-      "votes": 17
+      "id": "47145",
+      "votes": 8
     },
     {
-      "id": "21149",
       "content": "Adding manpower to a late software project makes it later!",
-      "votes": 16
+      "id": "21149",
+      "votes": 4
     },
     {
+      "content": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
       "id": "69581",
-      "content": "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-      "votes": 16
+      "votes": 2
     },
     {
-      "id": "36975",
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-      "votes": 20
+      "id": "36975",
+      "votes": 1
     },
     {
-      "id": "25170",
       "content": "Premature optimization is the root of all evil.",
-      "votes": 75
+      "id": "25170",
+      "votes": 7
     },
     {
-      "id": "98312",
       "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
-      "votes": 16
-    },
-    {
-      "id": "566c",
-      "content": "x",
+      "id": "98312",
       "votes": 0
     },
     {
-      "id": "4e3a",
-      "content": "df",
-      "votes": 0
+      "content": "sdfsdf",
+      "votes": 1,
+      "id": "5RFeLXy"
     },
     {
-      "id": "cc60",
-      "content": "dfsf",
-      "votes": 0
+      "content": " jepii!",
+      "votes": 0,
+      "id": "_SDvnqg"
     },
     {
-      "id": "57d0",
-      "content": "dfdffd",
-      "votes": 0
+      "content": "dfgdgfgf",
+      "votes": 2,
+      "id": "l4FSe0i"
     }
   ]
 }
