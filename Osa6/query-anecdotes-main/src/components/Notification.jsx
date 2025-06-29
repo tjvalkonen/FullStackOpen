@@ -3,6 +3,7 @@ import {useNotificationValue} from '../NotificationCOntext'
 
 const Notification = () => {
   const notification = useNotificationValue()
+  // console.log("Notification: " + notification)
 
   const style = {
     border: 'solid',
@@ -12,6 +13,11 @@ const Notification = () => {
   }
   
   // if (isHidden) return null
+  if(notification == null){
+    return (
+      <div></div>
+    )
+  }
 
   return (
     <div style={style}>

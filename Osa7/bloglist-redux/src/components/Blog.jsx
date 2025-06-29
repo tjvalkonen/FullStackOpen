@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 
-const Blog = ({ blog , username, updateLike, removeBlog, isCurrentUser }) => {
+const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
   const [visible, setVisible] = useState(false)
   const [isUser, setIsUser] = useState(isCurrentUser)
 
@@ -16,23 +18,64 @@ const Blog = ({ blog , username, updateLike, removeBlog, isCurrentUser }) => {
   const showWhenCurrentUser = { display: isCurrentUser ? '' : 'none' }
 
   return (
-    <div>
-      <div className="blog" data-testid='test-blog'>
+    <div className="container">
+      <div className="blog" data-testid="test-blog">
         <div style={hideWhenVisible} id="lessInfoDiv">
-
-          <h4>{blog.title}</h4> {blog.author} <button id="ShowMore" onClick={toggleVisibility}>view</button>
+          <Table size="sm" bgcolor="white">
+            <thead>
+              <tr>
+                <td>
+                  <h4>{blog.title}</h4> {blog.author}{' '}
+                </td>
+                <td>
+                  {' '}
+                  <Button
+                    id="ShowMore"
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={toggleVisibility}
+                  >
+                    view
+                  </Button>
+                </td>
+              </tr>
+            </thead>
+          </Table>
         </div>
         <div style={showWhenVisible} id="moreInfoDiv">
-          <h4>{blog.title}</h4> {blog.author} <button id="ShowLess" onClick={toggleVisibility}>hide</button>
-          <br></br>
+          <Table size="sm" bgcolor="white">
+            <thead>
+              <tr>
+                <td>
+                  <h4>{blog.title}</h4> {blog.author}{' '}
+                </td>
+                <td>
+                  {' '}
+                  <Button
+                    id="ShowLess"
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={toggleVisibility}
+                  >
+                    hide
+                  </Button>
+                </td>
+              </tr>
+            </thead>
+          </Table>
           {blog.url}
           <br></br>
-        likes {blog.likes} <button id="likeButton" onClick={updateLike}>Like</button>
+          likes {blog.likes}{' '}
+          <Button variant="outline-success" size="sm" onClick={updateLike}>
+            Like
+          </Button>
           <br></br>
           {username}
           <br></br>
           <div style={showWhenCurrentUser}>
-            <button id="confirmButton" onClick={removeBlog}>remove</button>
+            <Button variant="outline-danger" size="sm" onClick={removeBlog}>
+              remove
+            </Button>
           </div>
         </div>
       </div>

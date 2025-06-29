@@ -1,94 +1,107 @@
 .error {
-    color: rgb(138, 0, 0);
-    background: lightcoral;
-    font-size: 20px;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+  color: rgb(138, 0, 0);
+  background: lightcoral;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 
 .notification {
-    color: rgb(0, 100, 0);
-    background: lightgreen;
-    font-size: 20px;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+  color: rgb(0, 100, 0);
+  background: lightgreen;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 
-  .blog {
-    color: rgb(11, 11, 11);
-    background: white;
-    font-size: 16px;
-    border-style: solid;
-    border-radius: 5px;
-    border-width: 1px;
-    padding: 8px;
-    margin-bottom: 4px;
-  }
+.blog {
+  color: rgb(11, 11, 11);
+  background: rgb(240, 243, 247);
+  font-size: 16px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: darkgray;
+  padding: 8px;
+  margin-bottom: 4px;
+}
 
-  h4 {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 18px;
-    padding-left: 0px;
-    padding-right: 10px;
-    padding-top: 0px;
-    padding-top: 0px;
-    display:inline;
-  }
+.createNewForm {
+  color: rgb(11, 11, 11);
+  background: rgb(240, 243, 247);
+  font-size: 16px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: darkgray;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-left: 8px;
+  padding-bottom: 0px;
+  margin-bottom: 4px;
+}
 
-  #confirmButton {
-    color: lightcoral;
-    background: darkred;
-    font-size: 12px;
-    font-weight:800;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 6px;
-    padding-right: 6px;
-    border-style: solid;
-    border-radius: 5px;
-    border-width: 1px;
-    border-color: brown;
-  }
+h4 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px;
+  padding-left: 0px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-top: 0px;
+  display: inline;
+}
 
-  #confirmButton:hover {
+#confirmButton {
+  color: lightcoral;
+  background: darkred;
+  font-size: 12px;
+  font-weight: 800;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: brown;
+}
 
-    color: rgb(65, 0, 0);
-    background: lightcoral;
-  }
+#confirmButton:hover {
+  color: rgb(65, 0, 0);
+  background: lightcoral;
+}
 
-  #confirmButton:active {
+#confirmButton:active {
+  color: rgb(255, 255, 255);
+  background: lightcoral;
+}
 
-    color: rgb(255, 255, 255);
-    background: lightcoral;
-  }
+#likeButton {
+  color: darkblue;
+  background: lightblue;
+  font-size: 12px;
+  font-weight: 700;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: darkblue;
+}
 
+#likeButton:hover {
+  color: lightblue;
+  background: darkblue;
+}
 
-  #likeButton {
-    color: darkblue;
-    background: lightblue;
-    font-size: 12px;
-    font-weight:700;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 6px;
-    padding-right: 6px;
-    border-style: solid;
-    border-radius: 5px;
-    border-width: 1px;
-    border-color: darkblue;
-  }
-
-  #likeButton:hover {
-    color: lightblue;
-    background: darkblue;
-  }
-
-  #likeButton:active {
-    color: rgb(255, 255, 255);
-    background: blue;
-  }
+#likeButton:active {
+  color: rgb(255, 255, 255);
+  background: blue;
+}

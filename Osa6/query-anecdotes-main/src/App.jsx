@@ -6,10 +6,8 @@ import Notification from './components/Notification'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getAnecdotes, updateAnecdote } from './requests'
 
-// import { useContext } from 'react'
-// import NotificationContext from './NotificationCOntext'
-// import { useNotificationDispatch } from './NotificationCOntext'
-
+import { useContext } from 'react'
+import NotificationContext from './NotificationCOntext'
 
 const App = () => {
 
@@ -22,7 +20,9 @@ const result = useQuery(
   }
 )
 
-console.log("result: " + JSON.parse(JSON.stringify(result)))
+const [message, dispatch] = useContext(NotificationContext)
+
+// console.log("1 message: " + message)
 
 const updateAnecdoteMutation = useMutation({
       mutationFn: updateAnecdote,
@@ -31,8 +31,6 @@ const updateAnecdoteMutation = useMutation({
         //const anecdotes = queryClient.getQueryData('anecdotes')
         //queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
       },
-
-
 })
 
 if ( result.isLoading ) {
@@ -40,6 +38,7 @@ if ( result.isLoading ) {
 }
 
 if (result.isError) {
+  
   return <div>{result.error.message}!</div> 
 }
 
@@ -47,7 +46,9 @@ const anecdotes = result.data
 
 const handleVote = (anecdote) => {
   updateAnecdoteMutation.mutate({...anecdote, votes: anecdote.votes + 1})
-  console.log('vote' + anecdote.votes + 1)
+  // console.log('vote' + anecdote.votes + 1)
+  dispatch({ type: "VOTE" , payload: { message: "anecdote  '" + anecdote.content + "' voted"}})
+  setTimeout(() => { dispatch({ type: "HIDE" , payload: { message: null}})},  5000)
 }
 
   return (
