@@ -24,11 +24,7 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
           <Table size="sm" bgcolor="white">
             <thead>
               <tr>
-                <td>
-                  <h4>{blog.title}</h4> {blog.author}{' '}
-                </td>
-                <td>
-                  {' '}
+                <td width={'70'}>
                   <Button
                     id="ShowMore"
                     variant="outline-secondary"
@@ -38,6 +34,9 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
                     view
                   </Button>
                 </td>
+                <td>
+                  <h4>{blog.title}</h4> {blog.author}{' '}
+                </td>
               </tr>
             </thead>
           </Table>
@@ -46,10 +45,7 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
           <Table size="sm" bgcolor="white">
             <thead>
               <tr>
-                <td>
-                  <h4>{blog.title}</h4> {blog.author}{' '}
-                </td>
-                <td>
+                <td width={'70'}>
                   {' '}
                   <Button
                     id="ShowLess"
@@ -60,10 +56,13 @@ const Blog = ({ blog, username, updateLike, removeBlog, isCurrentUser }) => {
                     hide
                   </Button>
                 </td>
+                <td>
+                  <h4>{blog.title}</h4> {blog.author}{' '}
+                </td>
               </tr>
             </thead>
           </Table>
-          {blog.url}
+          <a href={blog.url}>{blog.url}</a>
           <br></br>
           likes {blog.likes}{' '}
           <Button variant="outline-success" size="sm" onClick={updateLike}>

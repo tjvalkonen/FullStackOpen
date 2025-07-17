@@ -9,16 +9,8 @@
       "content": "best feature ever <3"
     },
     {
-      "content": "dsgdfg",
+      "content": "No kokeillaanpas!",
       "id": 3
-    },
-    {
-      "content": "dsgdfggrge",
-      "id": 4
-    },
-    {
-      "content": "asdasd",
-      "id": 5
     }
   ],
   "persons": [
@@ -33,24 +25,9 @@
       "number": "012-123123"
     },
     {
-      "name": "gregrr",
-      "number": "er43523523",
+      "name": "Testi Persoona",
+      "number": "123 4567 890",
       "id": 3
-    },
-    {
-      "name": "3w4",
-      "number": "sdfsdf",
-      "id": 4
-    },
-    {
-      "name": "sdfsdf",
-      "number": "dsfsf",
-      "id": 5
-    },
-    {
-      "name": "sasfa",
-      "number": "xzcz",
-      "id": 6
     }
   ]
 }

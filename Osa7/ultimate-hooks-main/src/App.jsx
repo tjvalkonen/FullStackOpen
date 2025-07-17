@@ -17,8 +17,7 @@ const useField = (type) => {
 
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
-  
-  
+
   //const request = axios.get(baseUrl)
   //return request.then(response => setResources(response.data))
   

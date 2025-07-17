@@ -6,6 +6,8 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import { createStore } from 'redux'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 const notificationReducer = (state = '', action) => {
   if (action.type === 'NOTIFICATION') {
@@ -79,29 +81,34 @@ const App = () => {
 
   // refactor to component
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          data-testid="username"
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          data-testid="password"
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <div style={{ width: '400px' }}>
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+          <Form.Control
+            data-testid="username"
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <Form.Control
+            data-testid="password"
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <br />
+        <Button type="submit" id="submit-button" variant="outline-success">
+          login
+        </Button>
+      </form>
+    </div>
   )
 
   const onClickLogout = () => {
@@ -200,7 +207,7 @@ const App = () => {
       {!user && (
         <div>
           <h2>Log in to application</h2>
-          <Notification message={'store.getState().payload'} />
+          <Notification message={''} />
           {loginForm()}
         </div>
       )}
@@ -208,11 +215,13 @@ const App = () => {
       {user && (
         <div>
           <h2>blogs</h2>
-          <Notification message={'store.getState().payload'} />
+          <Notification message={''} />
           <div>
             <p>
               {user.name} logged in{' '}
-              <button onClick={onClickLogout}>logout</button>
+              <Button variant="outline-danger" onClick={onClickLogout}>
+                logout
+              </Button>
             </p>
 
             <Togglable

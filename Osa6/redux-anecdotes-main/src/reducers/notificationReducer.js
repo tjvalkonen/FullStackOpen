@@ -14,6 +14,7 @@ const notificationSlice = createSlice({
   reducers: {
     setNotification(state, action) {
       console.log("Nr Show: " + action.payload)
+      // 
       return action.payload
     },
      
@@ -22,13 +23,13 @@ const notificationSlice = createSlice({
       return action.payload
     }
   },
-
+/*
   setNotification2(state, action)  {
     console.log("Nr hide: " + action.payload)
     return action.payload
   }
-  
+  */
 })
 
-export const { setNotification, clearNotification , setNotification2} = notificationSlice.actions
+export const { setNotification, clearNotification } = notificationSlice.actions
 export default notificationSlice.reducer
