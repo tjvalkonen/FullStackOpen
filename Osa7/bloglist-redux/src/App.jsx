@@ -8,6 +8,13 @@ import BlogForm from './components/BlogForm'
 import { createStore } from 'redux'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
+
+import userService from './services/users'
+import User from './components/User'
+import Users from './services/users'
+
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const notificationReducer = (state = '', action) => {
   if (action.type === 'NOTIFICATION') {
@@ -21,10 +28,20 @@ const notificationReducer = (state = '', action) => {
 const store = createStore(notificationReducer)
 
 const App = () => {
+  // testing users
+
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    console.log('Get all users')
+    userService.getAll().then((users) => setUsers(users))
+  }, [])
+
+  // console.log(users)
+
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
   // const [errorMessage, setErrorMessage] = useState(null)
-  //  const [notificationMessage, setNotificationMessage] = useState(null)
+  // const [notificationMessage, setNotificationMessage] = useState(null)
   const setErrorMessage = (message) => {
     console.log('dispatch' + message)
     store.dispatch({
@@ -202,6 +219,76 @@ const App = () => {
   // const errorMessage = store.getState().payload
   //console.log('message' + store.getState().payload)
 
+  const UsersView = () => (
+    <div>
+      <h2>blogs</h2>
+      <Notification message={''} />
+      <div>
+        <p>
+          {user.name} logged in{' '}
+          <Button variant="outline-danger" onClick={onClickLogout}>
+            logout
+          </Button>
+        </p>
+      </div>
+      <h2>Users</h2>
+      <div style={{ width: '400px' }}>
+        <Table size="sm" bgcolor="white">
+          <thead>
+            <tr>
+              <td width={'180'}> </td>
+              <td>
+                <b>blogs created</b>
+              </td>
+            </tr>
+          </thead>
+        </Table>
+
+        {users.map((user) => (
+          <User key={user.id} fullname={user.name} blogs={user.blogs} />
+        ))}
+      </div>
+    </div>
+  )
+
+  const BlogsView = () => (
+    <div>
+      <h2>blogs</h2>
+      <Notification message={''} />
+      <div>
+        <p>
+          {user.name} logged in{' '}
+          <Button variant="outline-danger" onClick={onClickLogout}>
+            logout
+          </Button>
+        </p>
+      </div>
+
+      <div>
+        <Togglable
+          buttonLabel="create new blog"
+          buttonLabelCancel="cancel"
+          ref={blogFormRef}
+        >
+          <BlogForm createBlog={addBlog} />
+        </Togglable>
+      </div>
+
+      <br></br>
+
+      {blogs.map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          username={blog.user.name}
+          updateLike={() => updateLikeOf(blog.id)}
+          removeBlog={() => removeBlogOfId(blog.id)}
+          isCurrentUser={isCurrentUserOf(blog.id)}
+        />
+      ))}
+    </div>
+  )
+
   return (
     <div className="container">
       {!user && (
@@ -214,35 +301,12 @@ const App = () => {
 
       {user && (
         <div>
-          <h2>blogs</h2>
-          <Notification message={''} />
-          <div>
-            <p>
-              {user.name} logged in{' '}
-              <Button variant="outline-danger" onClick={onClickLogout}>
-                logout
-              </Button>
-            </p>
-
-            <Togglable
-              buttonLabel="create new blog"
-              buttonLabelCancel="cancel"
-              ref={blogFormRef}
-            >
-              <BlogForm createBlog={addBlog} />
-            </Togglable>
-          </div>
-          <br></br>
-          {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              username={blog.user.name}
-              updateLike={() => updateLikeOf(blog.id)}
-              removeBlog={() => removeBlogOfId(blog.id)}
-              isCurrentUser={isCurrentUserOf(blog.id)}
-            />
-          ))}
+          <Router>
+            <Routes>
+              <Route path="/users" element={<UsersView />} />
+              <Route path="/" element={<BlogsView />} />
+            </Routes>
+          </Router>
         </div>
       )}
     </div>
