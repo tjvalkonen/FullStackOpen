@@ -15,6 +15,7 @@ import User from './components/User'
 import Users from './services/users'
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { getOverlayDirection } from 'react-bootstrap/esm/helpers'
 
 const notificationReducer = (state = '', action) => {
   if (action.type === 'NOTIFICATION') {
@@ -221,16 +222,8 @@ const App = () => {
 
   const UsersView = () => (
     <div>
-      <h2>blogs</h2>
+      <h2>blog app</h2>
       <Notification message={''} />
-      <div>
-        <p>
-          {user.name} logged in{' '}
-          <Button variant="outline-danger" onClick={onClickLogout}>
-            logout
-          </Button>
-        </p>
-      </div>
       <h2>Users</h2>
       <div style={{ width: '400px' }}>
         <Table size="sm" bgcolor="white">
@@ -253,17 +246,8 @@ const App = () => {
 
   const BlogsView = () => (
     <div>
-      <h2>blogs</h2>
+      <h2>blog app</h2>
       <Notification message={''} />
-      <div>
-        <p>
-          {user.name} logged in{' '}
-          <Button variant="outline-danger" onClick={onClickLogout}>
-            logout
-          </Button>
-        </p>
-      </div>
-
       <div>
         <Togglable
           buttonLabel="create new blog"
@@ -289,6 +273,10 @@ const App = () => {
     </div>
   )
 
+  const padding = {
+    padding: 5,
+  }
+
   return (
     <div className="container">
       {!user && (
@@ -300,14 +288,33 @@ const App = () => {
       )}
 
       {user && (
-        <div>
-          <Router>
-            <Routes>
-              <Route path="/users" element={<UsersView />} />
-              <Route path="/" element={<BlogsView />} />
-            </Routes>
-          </Router>
-        </div>
+        <Router>
+          <Table bgcolor="lightgray">
+            <thead>
+              <tr>
+                <td width={'180'}>
+                  <Link style={padding} to="/">
+                    <b>blogs</b>
+                  </Link>
+                  <Link style={padding} to="/users">
+                    <b>users</b>
+                  </Link>
+                </td>
+                <td>
+                  {user.name} logged in{' '}
+                  <Button variant="outline-danger" onClick={onClickLogout}>
+                    logout
+                  </Button>
+                </td>
+              </tr>
+            </thead>
+          </Table>
+
+          <Routes>
+            <Route path="/users" element={<UsersView />} />
+            <Route path="/" element={<BlogsView />} />
+          </Routes>
+        </Router>
       )}
     </div>
   )
