@@ -11,6 +11,10 @@
     {
       "content": "No kokeillaanpas!",
       "id": 3
+    },
+    {
+      "content": "näin on!",
+      "id": 4
     }
   ],
   "persons": [
@@ -28,6 +32,11 @@
       "name": "Testi Persoona",
       "number": "123 4567 890",
       "id": 3
+    },
+    {
+      "name": "uusi persoona",
+      "number": "032-32402434",
+      "id": 4
     }
   ]
 }

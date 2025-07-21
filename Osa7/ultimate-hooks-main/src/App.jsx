@@ -17,9 +17,6 @@ const useField = (type) => {
 
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
-
-  //const request = axios.get(baseUrl)
-  //return request.then(response => setResources(response.data))
   
   useEffect(() => {
     axios
@@ -32,7 +29,6 @@ const useResource = (baseUrl) => {
   // console.log(resources)
 
   const create = (resource) => {
-    // ...
     axios.post(baseUrl, resource)
   }
 
