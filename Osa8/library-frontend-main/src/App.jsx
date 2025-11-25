@@ -6,11 +6,21 @@ import NewBook from "./components/NewBook";
 import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 
 const App = () => {
-  const result1 = useQuery(ALL_AUTHORS)
-  const result = useQuery(ALL_BOOKS)
   const [page, setPage] = useState("authors");
 
-  if (result.loading)  {
+  /*
+  if(page === "authors"){
+    result = useQuery(ALL_AUTHORS)
+  } else if (page === "books"){
+    result = useQuery(ALL_BOOKS)
+  }
+    */
+
+  const result1 = useQuery(ALL_AUTHORS)
+  const result2 = useQuery(ALL_BOOKS)
+
+
+  if (result1.loading || result2.loading)  {
     return <div>loading...</div>
   }
 
@@ -24,7 +34,7 @@ const App = () => {
 
       <Authors show={page === "authors"} authors={result1.data.allAuthors}  />
 
-      <Books show={page === "books"} books={result.data.allBooks}/>
+      <Books show={page === "books"} books={result2.data.allBooks}/>
 
       <NewBook show={page === "add"} />
     </div>
