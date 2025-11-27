@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client/react'
 
 import { EDIT_AUTHOR, ALL_AUTHORS } from '../queries'
 
-const BirthYearForm = ({ authors }) => {
+const BirthYearForm = ({ authors, token }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
@@ -25,6 +25,10 @@ const BirthYearForm = ({ authors }) => {
 
     setName('')
     setBorn('')
+  }
+
+  if (!token) {
+    return null
   }
 
   return (
