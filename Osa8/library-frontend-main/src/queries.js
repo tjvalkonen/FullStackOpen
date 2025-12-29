@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client'
 
+export const ME = gql`
+  query {
+    me {
+      username
+      id
+      favoriteGenre
+    }
+  }
+`
+
 export const ALL_AUTHORS = gql`
   query {
     allAuthors  {
@@ -11,17 +21,17 @@ export const ALL_AUTHORS = gql`
 `
 
 export const ALL_BOOKS = gql`
-  query {
-    allBooks  {
+  query ($genre: String){
+    allBooks (genre: $genre) {
       title
 
       published
+      genres
     }
   }
 `
 // removed:
 // author
-
 
 
 export const CREATE_BOOK = gql`
@@ -31,14 +41,18 @@ export const CREATE_BOOK = gql`
       author: $author,
       published: $published,
       genres: $genres
-    ) {
+    ) { 
       title
-
+      author {
+        name
+      }
       published
       genres
     }
   }
 `
+
+
 export const EDIT_AUTHOR = gql`
   mutation editAuthor($name: String!, $born: Int!) {
     editAuthor(name: $name, setBornTo: $born) {

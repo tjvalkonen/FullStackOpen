@@ -9,6 +9,7 @@ mongoose.set('strictQuery', false)
 const Author = require('./models/author')
 const Book = require('./models/book')
 const User = require('./models/user')
+const author = require('./models/author')
 require('dotenv').config()
 
 const MONGODB_URI = process.env.MONGODB_URI
@@ -23,6 +24,7 @@ mongoose.connect(MONGODB_URI)
     console.log('error connection to MongoDB:', error.message)
   })
 
+  /*
 let authors = [
   {
     name: 'Robert Martin',
@@ -62,7 +64,7 @@ let authors = [
  * Podría tener más sentido asociar un libro con su autor almacenando la id del autor en el contexto del libro en lugar del nombre del autor
  * Sin embargo, por simplicidad, almacenaremos el nombre del autor en conexión con el libro
 */
-
+/*
 let books = [
   {
     title: 'Clean Code',
@@ -114,7 +116,7 @@ let books = [
     genres: ['classic', 'revolution']
   },
 ]
-
+*/
 /*
   you can remove the placeholder query once your first one has been implemented 
 */
@@ -139,6 +141,7 @@ const typeDefs = `
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    me: User
     }
 
   type Mutation {
@@ -147,7 +150,7 @@ const typeDefs = `
       author: String!
       published: Int!
       genres: [String!]!
-    ): Book
+    ): Book!
     addAuthor(
       name: String!
     ): Author
@@ -165,11 +168,6 @@ type User {
 
 type Token {
   value: String!
-}
-
-type Query {
-
-  me: User
 }
 
 type Mutation {
@@ -232,17 +230,39 @@ const resolvers = {
   },
   Author: {
     bookCount: (root) => {
-      return books.reduce((a, v) => (v.author === root.name ? a+1 : a), 0)
+      // return books.reduce((a, v) => (v.author === root.name ? a+1 : a), 0)
+      return 1
     }
   },
   Mutation : {
     
     addBook: async (root, args, context) => {
             
-      // const authorTemp = Author.findOne({ name:  args.author })
-      const authorTemp =  Author.findOne({ name: args.author.name })
 
-      const book = new Book({  ...args, author: authorTemp.name})
+      // find if the author exists..
+      //const authorTemp = Author.find({ name: args.author })
+
+      console.log(args.author)
+
+/*
+      authorTemp = async () => {
+      return Author.findOne({ name: args.author })
+      }
+*/
+
+ // .find(p => p.name === args.name)
+ /*
+      const authorTemp =  async () =>{
+        return await Author.find(a => a.name === args.author)
+      } 
+        */
+
+      // const book = new Book({  ...args, author: authorTemp.name})
+      // Testing ...
+      console.log(args)
+
+      const book = new Book({...args, author:null})
+      // const book = new Book({  ...args })
       
       const currentUser = context.currentUser
 
@@ -257,6 +277,7 @@ const resolvers = {
       try {
         await book.save()
         console.log("saved")
+        // console.log(book.author.name)
 
       } catch (error) {
         

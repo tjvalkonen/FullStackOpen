@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useQuery, useApolloClient } from '@apollo/client/react'
+import { useApolloClient } from '@apollo/client/react'
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import LoginForm from './components/LoginForm'
 import Notify from './components/Notify'
-import { ALL_AUTHORS, ALL_BOOKS } from './queries'
+// import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 import Recommended from './components/Recommended'
 
 const App = () => {
@@ -29,13 +29,14 @@ const App = () => {
     }, 10000)
   }
 */
+/*
   const result1 = useQuery(ALL_AUTHORS)
-  const result2 = useQuery(ALL_BOOKS)
-
-  if (result1.loading || result2.loading)  {
+  // const result2 = useQuery(ALL_BOOKS)
+// || result2.loading
+  if (result1.loading )  {
     return <div>loading...</div>
   }
-
+*/
     const notify = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
@@ -59,9 +60,9 @@ const App = () => {
         <button onClick={() => setPage("books")}>books</button>   
         <button onClick={() => setPage("login")}>login</button>
 </div>
-      <Authors show={page === "authors"} authors={result1.data.allAuthors}  token ={token}/>
+      <Authors show={page === "authors"}/>
 
-      <Books show={page === "books"} books={result2.data.allBooks}/>
+      <Books show={page === "books"} />
 
       <LoginForm show={page === "login"} setToken={setToken} setError={notify}/>
      </div>
@@ -80,18 +81,22 @@ const App = () => {
         <button onClick={logout}>logout</button>
       </div>
 
-      <Authors show={page === "authors"} authors={result1.data.allAuthors}  token ={token}/>
+      <Authors show={page === "authors"} token ={token}/>
 
-      <Books show={page === "books"} books={result2.data.allBooks}/>
+      <Books show={page === "books"} />
 
       <NewBook show={page === "add"} />
 
-      <Recommended show={page ==="recommended"} genre="Juusto"/>
+      <Recommended show={page ==="recommended"}/>
 
       
     </div>
   );
 };
+
+// books={result2.data.allBooks}
+
+// authors={result1.data.allAuthors}
 
 export default App;
 

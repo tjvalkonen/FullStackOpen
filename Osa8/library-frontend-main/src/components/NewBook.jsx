@@ -19,6 +19,7 @@ const NewBook = (props) => {
   })
 
   
+  // eslint-disable-next-line react/prop-types
   if (!props.show) {
     return null
   }
@@ -29,11 +30,14 @@ const NewBook = (props) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    console.log('add book...')
+    console.log('Submit book...')
 
     // const publishedInt = parseInt(published)
 
     createBook({ variables: { title, published:parseInt(published, 10), author, genres}})
+
+    console.log('Submit author...', author)
+    console.log('Submit title...', title)
 
     setTitle('')
     setPublished('')
