@@ -51,7 +51,21 @@ export const CREATE_BOOK = gql`
     }
   }
 `
-
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    title
+    published
+    genres
+  }
+`
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
+`
 
 export const EDIT_AUTHOR = gql`
   mutation editAuthor($name: String!, $born: Int!) {
