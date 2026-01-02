@@ -3,35 +3,41 @@ import { useQuery } from '@apollo/client/react'
 import { useState, useEffect } from 'react'
 import { ALL_BOOKS, ME } from '../queries'
 
-
-
 const Recommended = ({ show }) => {
-  const userInfo = useQuery(ME);   
 
-  // console.log("userInfo: ", userInfo.data.me.favoriteGenre)
+  const userInfo = useQuery(ME);
+  const [genre, setGenre] = useState(null)
 
-  const [genre, setGenre] = useState(userInfo.data.me.favoriteGenre)
+  useEffect(() => {
+    if(userInfo.data){
+      setGenre(userInfo.data.me.favoriteGenre)
+    }
+  },[setGenre , userInfo])
+
+  // console.log("user favorite genre: ", userInfo)
+  
   const result = useQuery(ALL_BOOKS, { variables: genre })
-
-
-     useEffect(() => {
+  
+  useEffect(() => {
     result.refetch({ genre })
     }, [genre])
 
-  console.log("Recommended! ", genre)
-
-  if (result.loading )  {
-    return <div>loading...</div>
-  }
-
-
+  
   if (!show) {
     return null
+  }
+
+  
+  console.log("Recommended! ", genre)
+
+  if (result.loading)  {
+    return <div>loading...</div>
   }
 
     const books = result.loading
     ? result.previousData.allBooks
     : result.data.allBooks
+
 
   return (
     <div>

@@ -7,7 +7,6 @@ const BirthYearForm = ({ authors, token }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
-
   const [ changeBirthYear ] = useMutation(EDIT_AUTHOR , {
       refetchQueries: [ { query: ALL_AUTHORS } ],
       onError: (error) => {
@@ -19,10 +18,7 @@ const BirthYearForm = ({ authors, token }) => {
 
   const submit = async (event) => {
     event.preventDefault()
-
-
     changeBirthYear({ variables: { name, born:parseInt(born, 10) } })
-
     setName('')
     setBorn('')
   }
@@ -34,7 +30,6 @@ const BirthYearForm = ({ authors, token }) => {
   return (
     <div>
       <h2>Set Birthyear</h2>
-
       <form onSubmit={submit}>
         <div>
           <select value={name} onChange={({ target }) => setName(target.value)}>
@@ -53,7 +48,6 @@ const BirthYearForm = ({ authors, token }) => {
         <button type='submit'>update author</button>
       </form>
     </div>
-
   )
 
 }

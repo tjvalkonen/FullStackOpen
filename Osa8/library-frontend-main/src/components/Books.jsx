@@ -24,10 +24,6 @@ const Books = ({ show }) => {
   if (result.loading )  {
     return <div>loading...</div>
   }
-
- 
-  // const books = props.books
-
     const books = result.loading
     ? result.previousData.allBooks
     : result.data.allBooks

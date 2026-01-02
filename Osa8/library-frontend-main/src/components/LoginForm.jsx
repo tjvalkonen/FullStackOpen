@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useMutation } from '@apollo/client/react'
-import { LOGIN } from '../queries'
+import { useMutation, useQuery } from '@apollo/client/react'
+import { LOGIN, ME } from '../queries'
 
-const LoginForm = ({ show, setError, setToken }) => {
+const LoginForm = ({ show, setError, setToken, setFavorite }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -14,10 +14,13 @@ const LoginForm = ({ show, setError, setToken }) => {
   })
 
 
+
+
   useEffect(() => {
     if ( result.data ) {
       const token = result.data.login.value
       setToken(token)
+      setFavorite("nosql")
       localStorage.setItem('phonenumbers-user-token', token)
     }
   }, [result.data])
