@@ -144,7 +144,6 @@ const start = async () => {
   const app = express()
   const httpServer = http.createServer(app)
 
-
   const wsServer = new WebSocketServer({
     server: httpServer,
     path: '/',   
@@ -169,7 +168,6 @@ const start = async () => {
     ],
   })
 
-
   await server.start()
 
   app.use(
@@ -193,7 +191,6 @@ const start = async () => {
   )
 }
 start()
-
 
 /*  Old
 const server = new ApolloServer({

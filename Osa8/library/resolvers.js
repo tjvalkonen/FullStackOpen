@@ -60,9 +60,7 @@ const resolvers = {
     }
   },
   Mutation : {
-    
     addBook: async (root, args, context) => {
-            
 
       // find if the author exists..
 /*
@@ -73,14 +71,19 @@ const resolvers = {
 
       //const authorTemp = Author.find({ name: args.author })
       // const authorTemp =  Author.find(a => a.name === args.author)
-
-
+      // console.log(args.author)
+      const author = await Author.findOne({ name: args.author })
+      // console.log(author)
       // const book = new Book({  ...args, author: authorTemp.name})
       // Testing ...
       // console.log(args.author)
       // console.log(args)
 
-      const book = new Book({...args, author:null})
+      const book = new Book({ title: args.title, 
+        author: author, 
+        published: args.published, 
+        genres: args.genres 
+      })
       // const book = new Book({  ...args })
       
       const currentUser = context.currentUser
@@ -88,7 +91,7 @@ const resolvers = {
       if (!currentUser) {
         throw new GraphQLError('not authenticated', {
           extensions: {
-            code: 'BAD_USER_INPUT',
+            code: 'UNAUTHENTICATED',
           }
         })
       }
@@ -98,15 +101,12 @@ const resolvers = {
         console.log("saved")
         // console.log(book.author.name)
 
-      } catch (error) {
-        
-        throw new GraphQLError('Saving book failed', {
-          
+      } catch (error) {      
+        throw new GraphQLError(`Saving book failed: ${error.message}`, {
           extensions: {
             code: 'BAD_USER_INPUT',
             invalidArgs: args.name,
-            error
-            
+            error     
           }
         })
       }

@@ -1,3 +1,7 @@
+
+// Removed from Book
+//     author: Author!
+
 const typeDefs = `
   type Book {
     title: String!
@@ -63,5 +67,7 @@ type Mutation {
   ): Token
 }
 `
+// removed from add book 
+//       author: String!
 
 module.exports = typeDefs

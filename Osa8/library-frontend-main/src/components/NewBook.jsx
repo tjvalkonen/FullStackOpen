@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CREATE_BOOK, ALL_BOOKS } from '../queries'
 import { useMutation } from '@apollo/client/react'
 
-const NewBook = (props) => {
+const NewBook = ({show, setError }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
@@ -13,14 +13,16 @@ const NewBook = (props) => {
   const [ createBook ] = useMutation(CREATE_BOOK, {
     refetchQueries: [ { query: ALL_BOOKS } ],
     onError: (error) => {
-      const messages = error.graphQLErrors.map(e => e.message).join('\n')
-      console.log(messages)
+      // const messages = error.graphQLErrors.map(e => e.message).join('\n')
+      console.log(error)
+      // console.log("error")
+      setError(error.message)
     }
   })
 
   
   // eslint-disable-next-line react/prop-types
-  if (!props.show) {
+  if (!show) {
     return null
   }
 

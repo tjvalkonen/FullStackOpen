@@ -4,10 +4,16 @@ import { useQuery } from '@apollo/client/react'
 
 const Books = ({ show }) => {
     const [genre, setGenre] = useState(null)
-    const result = useQuery(ALL_BOOKS, { variables: genre })
+    const result = useQuery(ALL_BOOKS, { 
+      variables: genre,
+      pollInterval: 12000
+    })
     let genres = useRef([])
+
   
-    useEffect(() => {
+
+
+  useEffect(() => {
     result.refetch({ genre })
     }, [genre])
 

@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm'
 import Notify from './components/Notify'
 import Recommended from './components/Recommended'
 
-import { BOOK_ADDED } from './queries.js'
+import { BOOK_ADDED, ALL_BOOKS } from './queries.js'
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -23,16 +23,16 @@ const App = () => {
        console.log(data)
       const addedBook = data.data.bookAdded
       window.alert(`New book: ${addedBook.title} added`)
+
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return {
+          allBooks: allBooks.concat(addedBook),
+        }
+      })
     }
   })
 
-  /*
-  if(page === "authors"){
-    result = useQuery(ALL_AUTHORS)
-  } else if (page === "books"){
-    result = useQuery(ALL_BOOKS)
-  }
-    */
+
    /*
   const notify = (message) => {
     setErrorMessage(message)
@@ -41,14 +41,7 @@ const App = () => {
     }, 10000)
   }
 */
-/*
-  const result1 = useQuery(ALL_AUTHORS)
-  // const result2 = useQuery(ALL_BOOKS)
-// || result2.loading
-  if (result1.loading )  {
-    return <div>loading...</div>
-  }
-*/
+
 
     const notify = (message) => {
     setErrorMessage(message)
@@ -97,7 +90,7 @@ const App = () => {
 
       <Books show={page === "books"} />
 
-      <NewBook show={page === "add"} />
+      <NewBook show={page === "add"} setError={notify} />
 
       <Recommended show={page ==="recommended"} favorite={favorite}/>
 
