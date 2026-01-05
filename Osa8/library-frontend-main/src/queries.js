@@ -61,6 +61,9 @@ export const CREATE_BOOK = gql`
 const BOOK_DETAILS = gql`
   fragment BookDetails on Book {
     title
+    author {
+        name 
+    }
     published
     genres
   }

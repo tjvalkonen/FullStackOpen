@@ -6,6 +6,7 @@ const Book = require('./models/book')
 const User = require('./models/user')
 
 const { PubSub } = require('graphql-subscriptions')
+const book = require('./models/book')
 const pubsub = new PubSub()
 
 const resolvers = {
@@ -54,30 +55,27 @@ const resolvers = {
     }
   },
   Author: {
-    bookCount: (root) => {
-      // return books.reduce((a, v) => (v.author === root.name ? a+1 : a), 0)
-      return 1
+    bookCount: async (root) => {
+      // return Book.reduce((a, v) => (v.author === root.name ? a+1 : a), 0)
+      // return Book.find({ author: root.name })
+      // 
+      let authorBooks = await Book.collection.countDocuments({})
+      let count =  await Book.find({ author: root._id})
+
+      // console.log(Object.keys(count).length)
+      // console.log(root.name)
+      // console.log(root._id)
+      //console.log(authorBooks)
+      return Object.keys(count).length
     }
   },
   Mutation : {
     addBook: async (root, args, context) => {
 
       // find if the author exists..
-/*
-      authorTemp = async () => {
-      return Author.findOne({ name: args.author })
-      }
-*/
 
-      //const authorTemp = Author.find({ name: args.author })
-      // const authorTemp =  Author.find(a => a.name === args.author)
       // console.log(args.author)
       const author = await Author.findOne({ name: args.author })
-      // console.log(author)
-      // const book = new Book({  ...args, author: authorTemp.name})
-      // Testing ...
-      // console.log(args.author)
-      // console.log(args)
 
       const book = new Book({ title: args.title, 
         author: author, 
@@ -114,32 +112,9 @@ const resolvers = {
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
       return book
-      /*
-      if(Book.find((a) => a.title === args.title)) {
-        return null
-      } else {
-        return book
-      }
-      */
+
     },
 
-    /*
-
-
-    addBook: (root, args) => {
-      if(books.find((a) => a.title === args.title)) {
-        return null
-      } else {
-        const book = { ...args, id: uuid() }
-        books = books.concat(book)
-        if(authors.find((a) => a.name !== args.author)){
-          const author = { name: args.author, id: uuid() }
-          authors = authors.concat(author)
-        }
-        return book
-      }
-    },
-    */
     addAuthor: async (root, args, context) => {
       const author = new Author({ ...args })
       const currentUser = context.currentUser
@@ -166,15 +141,7 @@ const resolvers = {
       }
 
       return author
-      /*
-      if(authors.find((a) => a.name === args.name)) {
-        return null
-      } else {
-        const author = { ...args, id: uuid() }
-        authors = authors.concat(author)
-        return author
-      }
-        */
+
     },
     editAuthor: async (root, args, context ) => {
       const currentUser = context.currentUser

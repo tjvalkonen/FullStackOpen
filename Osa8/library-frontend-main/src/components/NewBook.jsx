@@ -14,12 +14,11 @@ const NewBook = ({show, setError }) => {
     refetchQueries: [ { query: ALL_BOOKS } ],
     onError: (error) => {
       // const messages = error.graphQLErrors.map(e => e.message).join('\n')
-      console.log(error)
+      // console.log(error)
       // console.log("error")
       setError(error.message)
     }
   })
-
   
   // eslint-disable-next-line react/prop-types
   if (!show) {
@@ -31,10 +30,6 @@ const NewBook = ({show, setError }) => {
 
   const submit = async (event) => {
     event.preventDefault()
-
-    // console.log('Submit book...')
-
-    // const publishedInt = parseInt(published)
 
     createBook({ variables: { title, published:parseInt(published, 10), author, genres}})
 

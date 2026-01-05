@@ -3,22 +3,19 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery } from '@apollo/client/react'
 
 const Books = ({ show }) => {
-    const [genre, setGenre] = useState(null)
-    const result = useQuery(ALL_BOOKS, { 
+  const [genre, setGenre] = useState(null)
+  const result = useQuery(ALL_BOOKS, { 
       variables: genre,
       pollInterval: 12000
     })
-    let genres = useRef([])
-
-  
-
+  let genres = useRef([])
 
   useEffect(() => {
     result.refetch({ genre })
     }, [genre])
 
   useEffect(() => {
-    if (!result.previousData && result.data) {
+    if (result.data) {
       genres.current = [...new Set(result.data.allBooks.map((b) => b.genres).flat())]
     }
   }, [result])
@@ -30,7 +27,8 @@ const Books = ({ show }) => {
   if (result.loading )  {
     return <div>loading...</div>
   }
-    const books = result.loading
+  
+  const books = result.loading
     ? result.previousData.allBooks
     : result.data.allBooks
 
