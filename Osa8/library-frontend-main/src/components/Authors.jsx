@@ -1,11 +1,13 @@
 import BirthYearForm from "./BirthYearForm";
 import { useQuery } from '@apollo/client/react'
-// import { useState } from 'react'
 import { ALL_AUTHORS } from '../queries'
 
 const Authors = ({show ,token}) => {
 
-const result = useQuery(ALL_AUTHORS)
+const result = useQuery(ALL_AUTHORS, { 
+      pollInterval: 12000  
+    }
+  )
 
   if (!show) {
     return null
@@ -18,8 +20,6 @@ const result = useQuery(ALL_AUTHORS)
       const authors = result.loading
     ? result.previousData.allAuthors
     : result.data.allAuthors
-
-  //const authors = props.authors
 
   return (
     <div>

@@ -13,28 +13,18 @@ const NewBook = ({show, setError }) => {
   const [ createBook ] = useMutation(CREATE_BOOK, {
     refetchQueries: [ { query: ALL_BOOKS } ],
     onError: (error) => {
-      // const messages = error.graphQLErrors.map(e => e.message).join('\n')
-      // console.log(error)
-      // console.log("error")
       setError(error.message)
     }
   })
-  
-  // eslint-disable-next-line react/prop-types
+
   if (!show) {
     return null
   }
-
-  
-
 
   const submit = async (event) => {
     event.preventDefault()
 
     createBook({ variables: { title, published:parseInt(published, 10), author, genres}})
-
-    // console.log('Submit author...', author)
-    // console.log('Submit title...', title)
 
     setTitle('')
     setPublished('')

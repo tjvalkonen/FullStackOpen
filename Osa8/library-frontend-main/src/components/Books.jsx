@@ -6,8 +6,9 @@ const Books = ({ show }) => {
   const [genre, setGenre] = useState(null)
   const result = useQuery(ALL_BOOKS, { 
       variables: genre,
-      pollInterval: 12000
-    })
+      pollInterval: 12000  
+    }
+  )
   let genres = useRef([])
 
   useEffect(() => {
@@ -32,38 +33,56 @@ const Books = ({ show }) => {
     ? result.previousData.allBooks
     : result.data.allBooks
 
+const SelectedGenre = ({genre}) => {
+  if ( !genre ) {
+    return null
+  }
   return (
     <div>
-      <h2>books</h2>
+      in genre <b>{genre}</b>
+    </div>
+  )
+}
 
+const GenreButtons = ({genre}) => {
+  if(!genre) {
+    return <div>
+        {genres.current.map((genre) => (
+          <button key={genre} onClick={() => setGenre(genre)}>
+            {genre}
+          </button>
+        ))}
+      </div>
+  } else {
+    return <div>
+      <button key="all" onClick={() => setGenre(null )}>
+          all
+        </button>
+      </div>
+  }
+}
+
+  return (
+    <div>
+      <h2>books</h2>      
+      <SelectedGenre genre={genre} />
       <table>
         <tbody>
           <tr>
             <th>title</th>
             <th>author</th>
             <th>published</th>
-            <th>genres</th>
           </tr>
           {books.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>
               <td>{a.published}</td>
-              <td>{a.genres}</td>
             </tr>
           ))}
         </tbody>
       </table>
-
-        {genres.current.map((genre) => (
-          <button key={genre} onClick={() => result.refetch({ genre })}>
-            {genre}
-          </button>
-        ))}
-        <button key="all" onClick={() => result.refetch({ genre: null })}>
-          all
-        </button>
-
+      <GenreButtons genre={genre} />
     </div>
   )
 }

@@ -13,22 +13,16 @@ const Recommended = ({ show }) => {
       setGenre(userInfo.data.me.favoriteGenre)
     }
   },[setGenre , userInfo])
-
-  // console.log("user favorite genre: ", userInfo)
   
   const result = useQuery(ALL_BOOKS, { variables: genre })
   
   useEffect(() => {
     result.refetch({ genre })
     }, [genre])
-
   
   if (!show) {
     return null
   }
-
-  
-  console.log("Recommended! ", genre)
 
   if (result.loading)  {
     return <div>loading...</div>
@@ -37,7 +31,6 @@ const Recommended = ({ show }) => {
     const books = result.loading
     ? result.previousData.allBooks
     : result.data.allBooks
-
 
   return (
     <div>
@@ -67,13 +60,3 @@ const Recommended = ({ show }) => {
 }
 
 export default Recommended
-
-/*
-          {books.result.map((a) => (
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
-            </tr>
-          ))}
-            */

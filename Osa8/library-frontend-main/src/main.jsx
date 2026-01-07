@@ -46,31 +46,8 @@ const client = new ApolloClient({
   link: splitLink
 })
 
-/*
-const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
-  link: new HttpLink({ uri: 'http://localhost:4000' }),
-})
-*/
-/*
-client.query({ query })
-  .then((response) => {
-    console.log(response.data)
-  })
-
-*/
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>
 )
-
-/*
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-*/

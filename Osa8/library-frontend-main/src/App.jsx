@@ -1,4 +1,4 @@
-import { useState, useQuery } from "react";
+import { useState } from "react";
 import { useApolloClient, useSubscription } from '@apollo/client/react'
 import Authors from "./components/Authors";
 import Books from "./components/Books";
@@ -32,17 +32,6 @@ const App = () => {
     }
   })
 
-
-   /*
-  const notify = (message) => {
-    setErrorMessage(message)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 10000)
-  }
-*/
-
-
     const notify = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
@@ -57,7 +46,6 @@ const App = () => {
     client.resetStore()
   }
 
-  
   if (!token) {
     return (
     <div>
@@ -69,7 +57,7 @@ const App = () => {
       </div>
       <Authors show={page === "authors"}/>
       <Books show={page === "books"} />
-      <LoginForm show={page === "login"} setToken={setToken} setFavorite={setFavorite} setError={notify}/>
+      <LoginForm show={page === "login"} setToken={setToken} setError={notify}/>
      </div>
     )
   }
@@ -87,22 +75,12 @@ const App = () => {
       </div>
 
       <Authors show={page === "authors"} token ={token}/>
-
       <Books show={page === "books"} />
-
       <NewBook show={page === "add"} setError={notify} />
-
       <Recommended show={page ==="recommended"} favorite={favorite}/>
-
       
     </div>
   );
 };
 
-// books={result2.data.allBooks}
-
-// authors={result1.data.allAuthors}
-
 export default App;
-
-// 
