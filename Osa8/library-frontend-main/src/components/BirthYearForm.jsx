@@ -15,7 +15,6 @@ const BirthYearForm = ({ authors, token }) => {
       }
     })
   
-
   const submit = async (event) => {
     event.preventDefault()
     changeBirthYear({ variables: { name, born:parseInt(born, 10) } })

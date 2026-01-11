@@ -14,23 +14,18 @@ const resolvers = {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-
-
       if(args.author){
         return Book.find({ author: args.author.name })
       }
       if(args.genre) {
         return Book.find({ genres: {$all:[args.genre]} })
-
       } else {
         return Book.find({})
-      }
-      
+      }   
     },
     me: (root, args, context) => {
       return context.currentUser
     },
-
     allAuthors: async () => {
       return Author.find({})
     }
@@ -49,7 +44,6 @@ const resolvers = {
   Mutation : {
     addBook: async (root, args, context) => {
       const currentUser = context.currentUser
-
       if (!currentUser) {
         throw new GraphQLError('not authenticated', {
           extensions: {
