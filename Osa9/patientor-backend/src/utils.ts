@@ -1,6 +1,22 @@
-import { NewPatient, Gender } from "./types";
+import { Gender, NewPatientEntry } from "./types";
+import { z } from 'zod';
 
 
+export const NewPatientSchema = z.object({
+  name: z.string().nonempty(),
+  dateOfBirth: z.string().date(),
+  ssn: z.string().nonempty(),
+  gender: z.enum(Gender),
+  occupation: z.string().optional(),
+});
+
+
+const toNewPatient = (object: unknown): NewPatientEntry => {
+  return NewPatientSchema.parse(object);
+};
+
+
+/*
 const toNewPatient = (object: unknown): NewPatient => {
 
   if ( !object || typeof object !== 'object' ) {
@@ -20,10 +36,24 @@ const toNewPatient = (object: unknown): NewPatient => {
   }
   throw new Error('Incorrect data: some fields are missing');
 };
+*/
+/*
+const parseName = (name: unknown): string => {
+
+  if (!name || !isString(name)) {
+    throw new Error('Incorrect or missing name');
+  }
+
+  // return comment;
+
+  // Using Zod
+  return z.string().parse(name);
+};
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
+
 
 const parseName = (name: unknown): string => {
   if (!name || !isString(name)) {
@@ -31,6 +61,9 @@ const parseName = (name: unknown): string => {
   }
   return name;
 };
+*/
+
+/*
 
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
   if (!dateOfBirth || !isString(dateOfBirth)) {
@@ -63,6 +96,8 @@ const parseOccupation = (occupation: unknown): string => {
   }
   return occupation;
 };
+
+*/
 
 /*
 const toNewPatient = (object: unknown): NewPatient => {
