@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import patientService from '../services/patientService';
 
 // import { Response } from 'express';
-import { NonSensitivePatient, NewPatientEntry } from "../types";
+import { NonSensitivePatient, NewPatientEntry, Patient } from "../types";
 
 // import toNewPatient from '../utils';
 import { NewPatientSchema } from '../utils';
@@ -12,9 +12,22 @@ import { z } from 'zod';
 
 const router = express.Router();
 
+router.get('/:id', (req, res: Response<Patient>) => {
+ // console.log(req.params.id);
+ const patient = patientService.findById(String(req.params.id));
+ 
+ // console.log(patient);
+  if (patient) {
+    res.send(patient);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 router.get('/', (_req, res: Response<NonSensitivePatient[]>) => {
   res.send(patientService.getNonSensitivePatients());
 });
+
 
 const newPatientParser = (req: Request, _res: Response, next: NextFunction) => { 
   try {

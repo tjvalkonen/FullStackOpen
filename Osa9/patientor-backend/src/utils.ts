@@ -1,13 +1,19 @@
 import { Gender, NewPatientEntry } from "./types";
 import { z } from 'zod';
 
+const EntrySchema = z.object({
+  id: z.string(),
+  // Lisää muut Entry-kentät tähän
+});
+
 
 export const NewPatientSchema = z.object({
   name: z.string().nonempty(),
-  dateOfBirth: z.string().date(),
   ssn: z.string().nonempty(),
-  gender: z.enum(Gender),
   occupation: z.string().optional(),
+  dateOfBirth: z.string().date(),
+  gender: z.enum(Gender),
+  entries: z.array(EntrySchema).default([]),
 });
 
 
