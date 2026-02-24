@@ -107,21 +107,21 @@ return (
       <div key={entry.id} >
       <Box  component="section" sx={{ p: 1, border: '1px dashed grey' }}>
       <EntryDetails key={entry.id} entry={entry} />
-    <ul>
-     {entry.diagnosisCodes?.map((code: string) => {
-       // 'code' on merkkijono, esim. "M24.2"
-       const diagnosis = diagnoses.find(d => d.code === code);  
-       return (
+      <ul>
+        {entry.diagnosisCodes?.map((code: string) => {
+        // 'code' on merkkijono, esim. "M24.2"
+        const diagnosis = diagnoses.find(d => d.code === code);  
+        return (
          <li key={code}>
            {code} {diagnosis?.name}
          </li>
-       );
-     })}
-    </ul>
-</Box>
+        );
+        })}
+      </ul>
+      </Box>
     </div>
-  ))}
-    </div>
+    ))}
+  </div>
   );
 };
 

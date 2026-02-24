@@ -9,6 +9,17 @@ const patientService_1 = __importDefault(require("../services/patientService"));
 const utils_1 = require("../utils");
 const zod_1 = require("zod");
 const router = express_1.default.Router();
+router.get('/:id', (req, res) => {
+    // console.log(req.params.id);
+    const patient = patientService_1.default.findById(String(req.params.id));
+    // console.log(patient);
+    if (patient) {
+        res.send(patient);
+    }
+    else {
+        res.sendStatus(404);
+    }
+});
 router.get('/', (_req, res) => {
     res.send(patientService_1.default.getNonSensitivePatients());
 });

@@ -30,6 +30,13 @@ export const getAllDiaries = async () => {
     */
 
 export const createDiary = async (object: NewDiaryEntry) => {
+  const response = await axios.post<DiaryEntry>(baseUrl, object);
+  return response.data; // Palautetaan VAIN data, ei koko vastausta
+};
+
+
+/*
+export const createDiary = async (object: NewDiaryEntry) => {
   try {
   return axios
     .post<DiaryEntry>(baseUrl, object)
@@ -47,3 +54,4 @@ export const createDiary = async (object: NewDiaryEntry) => {
   }
 
 }
+  */

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Gender = void 0;
+exports.HealthCheckRating = exports.Gender = void 0;
 ;
 // export type NewPatient = Omit<Patient, 'id'>;
 var Gender;
@@ -10,4 +10,21 @@ var Gender;
     Gender["Other"] = "other";
 })(Gender || (exports.Gender = Gender = {}));
 ;
-;
+var HealthCheckRating;
+(function (HealthCheckRating) {
+    HealthCheckRating[HealthCheckRating["Healthy"] = 0] = "Healthy";
+    HealthCheckRating[HealthCheckRating["LowRisk"] = 1] = "LowRisk";
+    HealthCheckRating[HealthCheckRating["HighRisk"] = 2] = "HighRisk";
+    HealthCheckRating[HealthCheckRating["CriticalRisk"] = 3] = "CriticalRisk";
+})(HealthCheckRating || (exports.HealthCheckRating = HealthCheckRating = {}));
+/*
+export interface Patient extends NewPatientEntry{
+    id: string;
+    entries: Entry[];
+//    name: string;
+//    dateOfBirth: string;
+//    ssn: string;
+//    gender: Gender;
+//    occupation: string;
+};
+*/ 
