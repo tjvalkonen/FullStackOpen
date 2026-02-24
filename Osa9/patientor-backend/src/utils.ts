@@ -1,11 +1,42 @@
 import { Gender, NewPatientEntry } from "./types";
 import { z } from 'zod';
 
-const EntrySchema = z.object({
+const BaseEntrySchema = z.object({
   id: z.string(),
-  // Lisää muut Entry-kentät tähän
+  description: z.string().min(1),
+  date: z.string().date(),
+  specialist: z.string().min(1),
+  diagnosisCodes: z.array(z.string()).optional(),
 });
 
+const HealthCheckEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("HealthCheck"),
+  healthCheckRating: z.number().int().min(0).max(3),
+});
+
+const HospitalEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("Hospital"),
+  discharge: z.object({
+    date: z.string().date(),
+    criteria: z.string().min(1),
+  }),
+});
+
+const OccupationalHealthcareEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("OccupationalHealthcare"),
+  employerName: z.string().min(1),
+  sickLeave: z.object({
+    startDate: z.string().date(),
+    endDate: z.string().date(),
+  }).optional(),
+});
+
+// Yhdistetään tyypit unioniksi 'type'-kentän perusteella
+const EntrySchema = z.discriminatedUnion("type", [
+  HealthCheckEntrySchema,
+  HospitalEntrySchema,
+  OccupationalHealthcareEntrySchema,
+]);
 
 export const NewPatientSchema = z.object({
   name: z.string().nonempty(),
@@ -15,7 +46,6 @@ export const NewPatientSchema = z.object({
   gender: z.enum(Gender),
   entries: z.array(EntrySchema).default([]),
 });
-
 
 const toNewPatient = (object: unknown): NewPatientEntry => {
   return NewPatientSchema.parse(object);
